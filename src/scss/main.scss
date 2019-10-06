@@ -1,0 +1,22 @@
+$header-bg: #444;
+$header-text: rgba(255, 255, 255, 0.7);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: $header-bg;
+    color: $header-text;
+
+    &__logo {
+        width: 100%;
+    }
+
+    &__search {}
+
+    &__git {}
+
+    &__nav {}
+}
