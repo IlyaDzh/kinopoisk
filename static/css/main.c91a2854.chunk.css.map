@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.css"],"names":[],"mappings":"AAAA,EAAE,QAAQ,CAAC,SAAS,CAAC,QAAQ,qBAAqB,CAAC,wBAA2B,CAAC,cAAc,UAAU","file":"main.c91a2854.chunk.css","sourcesContent":["*{margin:0;padding:0}.header{background-color:#444;color:rgba(255,255,255,0.7)}.header__logo{width:100%}\n"]}
