@@ -18,5 +18,22 @@ $header-text: rgba(255, 255, 255, 0.7);
 
     &__git {}
 
-    &__nav {}
+    &-nav {
+        &__list {
+            display: flex;
+            list-style: none;
+        }
+    }
+}
+
+.pl-button {
+    margin-bottom: 10px;
+}
+
+.pl-button.link {
+    color: $header-text;
+
+    &:hover {
+        color: #fff;
+    }
 }

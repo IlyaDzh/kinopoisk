@@ -4,7 +4,7 @@ class Content extends React.Component {
     render() {
         return (
             <div className='content'>
-                <div className='container'> 
+                <div className='pl-container'> 
                     Content
                 </div>
             </div>
