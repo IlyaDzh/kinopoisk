@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { FaGithub } from 'react-icons/fa';
+import logo from '../img/logo.png';
+
 class Header extends React.Component {
     render() {
         return (
@@ -8,16 +11,18 @@ class Header extends React.Component {
 
                     <div className='pl-row align-items-center'>
                         <div className='pl-col-md-3'>
-                            <img className='header__logo' src='https://upload.wikimedia.org/wikipedia/ru/9/96/Kinopoisk_logo_orange.png' alt='logo' />
+                            <a href='#'>
+                                <img className='header__logo' src={logo} alt='Kinopoisk' />
+                            </a>
                         </div>
                         <div className='pl-col-md-6'>
                             <div className='header__search'>
-                                <div>Поиск</div>
+                                <input className='header__search-input' type='text' placeholder='Введите название фильма' autoComplete='off' />
                             </div>
                         </div>
                         <div className='pl-col-md-3'>
                             <div className='header__git'>
-                                git
+                                <a href='https://github.com/IlyaDzh/kinopoisk' target='_blank' className='header__git-link'>Find this on GitHub</a>
                             </div>
                         </div>
                     </div>

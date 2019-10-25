@@ -4,19 +4,45 @@ $header-text: rgba(255, 255, 255, 0.7);
 * {
     margin: 0;
     padding: 0;
+    line-height: normal;
+    font-weight: 400;
 }
 
 .header {
     background-color: $header-bg;
     color: $header-text;
+    padding-top: 13px;
 
     &__logo {
         width: 100%;
+        max-width: 164px;
     }
 
-    &__search {}
+    &__search {
+        &-input {
+            margin-bottom: 0;
+            background-color: #f2f2f2;
+            border: none;
 
-    &__git {}
+            &:focus {
+                background-color: #fff;
+                border: none;
+            }
+        }
+    }
+
+    &__git {
+        text-align: right;
+
+        &-link {
+            color: $header-text;
+
+            &:hover,
+            &:active {
+                color: #fff;
+            }
+        }
+    }
 
     &-nav {
         &__list {
@@ -27,7 +53,8 @@ $header-text: rgba(255, 255, 255, 0.7);
 }
 
 .pl-button {
-    margin-bottom: 10px;
+    padding: 18px;
+    margin-bottom: 0;
 }
 
 .pl-button.link {
