@@ -64,3 +64,49 @@ $header-text: rgba(255, 255, 255, 0.7);
         color: #fff;
     }
 }
+
+.img-wrapper {
+    overflow: hidden;
+    border-radius: .25rem;
+    position: relative;
+}
+
+.films-wrapper {
+    margin-top: 30px;
+    text-align: center;
+    max-height: 550px;
+    height: 100%;
+
+    &_icon {
+        max-width: 100%;
+        height: auto;
+        border-radius: .25rem;
+        transition: 0.3s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &_vote {
+        background-image: url('../img/star.png');
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        background-size: cover;
+        width: 47px;
+        height: 47px;
+        padding-top: 15px;
+        padding-left: 1px;
+        font-weight: bold;
+    }
+
+    &_title {}
+
+    &_desc {
+        height: 94px;
+        font-weight: 300;
+        padding: 0px 5px;
+        overflow: hidden;
+    }
+}
