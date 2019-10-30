@@ -2,7 +2,7 @@ import React from 'react';
 
 import Film from './Film';
 
-class Affiche extends React.Component {
+class Popular extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -11,20 +11,19 @@ class Affiche extends React.Component {
     }
 
     componentDidMount() {
-        const AFFICHE_URL = 'https://api.themoviedb.org/3/trending/all/day?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
-        fetch(AFFICHE_URL).then(value => {
+        const POPULAR_URL = 'https://api.themoviedb.org/3/movie/popular?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        fetch(POPULAR_URL).then(value => {
             return value.json();
         }).then(output => {
             this.setState({
                 movies: output.results
             });
-            console.log(this.state.movies);
         })
     }
 
     render() {
         return (
-            <div className='affiche'>
+            <div className='popular'>
                 <div className='pl-container'>
                     <div className='pl-row'>
                         {
@@ -39,4 +38,4 @@ class Affiche extends React.Component {
     }
 }
 
-export default Affiche;
+export default Popular;

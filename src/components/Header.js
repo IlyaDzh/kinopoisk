@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// import { FaGithub } from 'react-icons/fa';
 import logo from '../img/logo.png';
 
 class Header extends React.Component {
@@ -12,7 +11,7 @@ class Header extends React.Component {
 
                     <div className='pl-row align-items-center'>
                         <div className='pl-col-md-3'>
-                            <Link to="/">
+                            <Link to="/kinopoisk">
                                 <img className='header__logo' src={logo} alt='Kinopoisk' />
                             </Link>
                         </div>
@@ -32,9 +31,9 @@ class Header extends React.Component {
                         <div className='pl-col d-flex justify-content-center'>
                             <nav className='header-nav'>
                                 <ul className='header-nav__list'>
-                                    <li><Link className='pl-button link' to="/">Афиша</Link></li>
-                                    <li><Link className='pl-button link' to="/favorites">В избранном</Link></li>
-                                    <li><Link className='pl-button link' to="/random">Случайный фильм</Link></li>
+                                    <li><Link className='pl-button link' to="/kinopoisk">Популярное</Link></li>
+                                    <li><Link className='pl-button link' to="/kinopoisk/favorites">В избранном</Link></li>
+                                    <li><Link className='pl-button link' to="/kinopoisk/random">Случайный фильм</Link></li>
                                 </ul>
                             </nav>
                         </div>

@@ -110,3 +110,19 @@ $header-text: rgba(255, 255, 255, 0.7);
         overflow: hidden;
     }
 }
+
+.details {
+    &-overlay {
+        &__img {
+            width: 100%;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #sidebar-container {
+        position: sticky;
+        display: block;
+        // top: 90px;
+    }
+}
