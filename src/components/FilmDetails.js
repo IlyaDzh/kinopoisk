@@ -21,7 +21,7 @@ class FilmDetails extends React.Component {
 
     render() {
         return (
-            <div className='details'
+            <div className='content details'
             // style={{
             //     backgroundImage: `url(https://image.tmdb.org/t/p/original/${this.state.details.backdrop_path})`,
             //     backgroundSize: 'cover',
@@ -32,19 +32,14 @@ class FilmDetails extends React.Component {
                 <div className='details-overlay'>
                     <img className='details-overlay__img' src={`https://image.tmdb.org/t/p/original/${this.state.details.backdrop_path}`} alt={this.state.details.title} />
                 </div>
-                <div className='pl-container'>
-                    <div className='pl-row'>
-                        <div className='pl-col'>
-                            <div className='details-'>
-                                {this.state.details.title}
-                            </div>
-                            <div className='details-'>
-                                {this.state.details.overview}
-                            </div>
-                        </div>
+                <div>
+                    <div className='details-'>
+                        {this.state.details.title}
+                    </div>
+                    <div className='details-'>
+                        {this.state.details.overview}
                     </div>
                 </div>
-
             </div>
         );
     }

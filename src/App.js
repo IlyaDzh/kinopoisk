@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, HashRouter } from 'react-router-dom';
 
 import Header from './components/Header';
+import Aside from './components/Aside';
 import Popular from './components/Popular';
 import Favorites from './components/Favorites';
 import Random from './components/Random';
@@ -16,6 +17,7 @@ class App extends React.Component {
         return (
             <HashRouter>
                 <Header />
+                <Aside />
                 <Switch>
                     <Route exact path='/' component={Popular} />
                     <Route exact path='/favorites' component={Favorites} />

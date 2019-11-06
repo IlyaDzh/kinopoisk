@@ -23,8 +23,9 @@ class Popular extends React.Component {
 
     render() {
         return (
-            <div className='popular'>
+            <div className='content'>
                 <div className='pl-container'>
+                    <h3 className='content__title'>Популярные</h3>
                     <div className='pl-row'>
                         {
                             this.state.movies.map(item => {
