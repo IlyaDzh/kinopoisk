@@ -22,7 +22,7 @@ class App extends React.Component {
                     <Route exact path='/' component={Popular} />
                     <Route exact path='/favorites' component={Favorites} />
                     <Route exact path='/random' component={Random} />
-                    <Route exact path='/movies/:filmId' component={FilmDetails} />
+                    <Route exact path='/movie/:filmId' component={FilmDetails} />
                     <Route component={ErrorPage} />
                 </Switch>
             </HashRouter>
