@@ -75,8 +75,7 @@ class FilmDetails extends React.Component {
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center center',
                             backgroundBlendMode: 'darken'
-                        }}
-                    >
+                        }}>
                         <div className='pl-container'>
                             <div className='pl-row details-header'>
                                 <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
