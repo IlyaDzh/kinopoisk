@@ -71,41 +71,82 @@ class FilmDetails extends React.Component {
                         style={{
                             backgroundImage: `url(https://image.tmdb.org/t/p/original/${this.state.details.backdrop_path})`,
                             backgroundSize: 'cover',
+                            backgroundColor: 'rgba(21, 16, 5, 0.85)',
                             backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'center center'
+                            backgroundPosition: 'center center',
+                            backgroundBlendMode: 'darken'
                         }}
                     >
-                        <div className='details-wrapper info'>
-                            <div className='info__vote'>
-                                {this.state.details.vote_average}
-                            </div>
-                            <div className='info__title'>
-                                {this.state.details.title}
-                            </div>
-                            <div className='info__subtitle'>
-                                {this.state.details.original_title}
-                            </div>
-                            <div className='info__date'>
-                                {this.state.details.release_date.substring(4, 0)}
-                            </div>
-                            <ul className='info__genres'>
-                                {
-                                    this.state.details.genres.map((item, index) => {
-                                        return <li key={item.id}>{(index ? '| ' : '') + item.name}</li>
-                                    })
-                                }
-                            </ul>
-                            <div className='info__time'>
-                                {this.state.details.runtime}
-                            </div>
-                            <div className='info__budget'>
-                                ${this.state.details.budget}
-                            </div>
-                            <div className='info__tagline'>
-                                {this.state.details.tagline}
-                            </div>
-                            <div className='info__overview'>
-                                {this.state.details.overview}
+                        <div className='pl-container'>
+                            <div className='pl-row details-header'>
+                                <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
+                                    <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${this.state.details.poster_path}`} alt='poster' />
+                                </div>
+                                <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
+                                    <h2 className='info__title'>
+                                        {this.state.details.title}
+                                    </h2>
+                                    <h6 className='info__subtitle'>
+                                        {this.state.details.original_title}
+                                    </h6>
+                                    <table className='info-table'>
+                                        <tbody>
+                                            <tr>
+                                                <td>Рейтинг:</td>
+                                                <td>{this.state.details.vote_average} / 10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Год выхода:</td>
+                                                <td>{this.state.details.release_date.substring(4, 0)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Страна:</td>
+                                                <td>
+                                                    <ul className='info__country'>
+                                                        {
+                                                            this.state.details.production_countries.map((item, index) => {
+                                                                return <li key={index}>{(index ? ', ' : '') + item.name}</li>
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Слоган:</td>
+                                                <td>{this.state.details.tagline}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Жанры:</td>
+                                                <td>
+                                                    <ul className='info__genres'>
+                                                        {
+                                                            this.state.details.genres.map((item) => {
+                                                                return <li key={item.id}>{item.name}</li>
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Бюджет:</td>
+                                                <td>${this.state.details.budget}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Время:</td>
+                                                <td>{this.state.details.runtime} мин.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div className='pl-col'>
+                                    <div className='info__overview'>
+                                        <h4 className='text-bold text-center'>Сюжет</h4>
+                                        <p>
+                                            {this.state.details.overview}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div> :

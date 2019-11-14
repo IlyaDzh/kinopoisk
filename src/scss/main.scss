@@ -173,42 +173,63 @@ a {
 }
 
 .details {
-    &-overlay {
-        &__img {
+    color: #fff;
+
+    &-header {
+        justify-content: center;
+        align-items: center;
+        padding: 41px 20px 41px 10px;
+
+        &__poster {
             width: 100%;
+            border-radius: .25rem;
         }
     }
 
-    &-wrapper {
-        width: 80%;
-        margin: auto;
-    }
-
     .info {
-        &__vote {}
+        &-table {
+            width: 100%;
+            border-collapse: collapse;
 
-        &__title {}
+            tr {
+                border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+            }
 
-        &__subtitle {}
+            td {
+                padding-bottom: 6px;
+                padding-top: 6px;
+            }
+        }
 
-        &__date {}
+        &__country {
+            list-style: none;
+            display: flex;
+        }
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        &__subtitle {
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
         &__genres {
             list-style: none;
             display: flex;
+            flex-wrap: wrap;
 
             li {
-                margin-right: 7px;
+                margin-right: 5px;
             }
         }
 
-        &__time {}
-
-        &__budget {}
-
-        &__tagline {}
-
-        &__overview {}
+        &__overview {
+            margin-top: 40px;
+        }
     }
 }
 
@@ -222,7 +243,7 @@ a {
     justify-content: center;
 }
 
-.pl-col-mob {
+.col-mob {
     position: relative;
     width: 100%;
     padding-right: 15px;
@@ -246,21 +267,37 @@ a {
 }
 
 @media (max-width: 576px) {
-    .pl-col-mob {
+    .col-mob {
         -webkit-flex: 0 0 33%;
         -moz-box-flex: 0;
         -ms-flex: 0 0 33%;
         flex: 0 0 33%;
         max-width: 33%;
     }
+
+    .col-img {
+        -webkit-flex: 0 0 60%;
+        -moz-box-flex: 0;
+        -ms-flex: 0 0 60%;
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
 }
 
 @media (max-width: 350px) {
-    .pl-col-mob {
+    .col-mob {
         -webkit-flex: 0 0 50%;
         -moz-box-flex: 0;
         -ms-flex: 0 0 50%;
         flex: 0 0 50%;
         max-width: 50%;
+    }
+
+    .col-img {
+        -webkit-flex: 0 0 80%;
+        -moz-box-flex: 0;
+        -ms-flex: 0 0 80%;
+        flex: 0 0 80%;
+        max-width: 80%;
     }
 }
