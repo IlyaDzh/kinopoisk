@@ -23,14 +23,13 @@ const Details = (props) => {
                                 <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${props.details.poster_path}`} alt='poster' />
                                 :
                                 <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
-                        }
-                    </div>
+                        }                    </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
                         <h2 className='info__title'>
-                            {props.details.title}
+                            {props.details.name}
                         </h2>
                         <h6 className='info__subtitle'>
-                            {props.details.original_title}
+                            {props.details.original_name}
                         </h6>
                         <table className='info-table'>
                             <tbody>
@@ -40,43 +39,17 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Год выхода:</td>
-                                    <td>{props.details.release_date.substring(4, 0)}</td>
+                                    <td>{props.details.first_air_date.substring(4, 0)}</td>
                                 </tr>
                                 <tr>
                                     <td>Страна:</td>
                                     <td>
                                         <ul className='info__country'>
                                             {
-                                                props.details.production_countries.map((item, index) => {
-                                                    return <li key={index}>{(index ? ', ' : '') + item.name}</li>
-                                                })
+                                                props.details.origin_country[0]
                                             }
                                         </ul>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>Слоган:</td>
-                                    <td>{props.details.tagline}</td>
-                                </tr>
-                                <tr>
-                                    <td>Жанры:</td>
-                                    <td>
-                                        <ul className='info__genres'>
-                                            {
-                                                props.details.genres.map((item) => {
-                                                    return <li key={item.id}>{item.name}</li>
-                                                })
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Бюджет:</td>
-                                    <td>${props.details.budget}</td>
-                                </tr>
-                                <tr>
-                                    <td>Время:</td>
-                                    <td>{props.details.runtime} мин.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,7 +84,7 @@ const Video = (props) => {
     );
 }
 
-class FilmDetails extends React.Component {
+class SerialDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -128,7 +101,7 @@ class FilmDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.filmId !== prevProps.match.params.filmId) {
+        if (this.props.match.params.serialId !== prevProps.match.params.serialId) {
             this.setState({
                 error: false,
                 load: false
@@ -139,7 +112,7 @@ class FilmDetails extends React.Component {
     }
 
     getDetails = () => {
-        const DETAILS_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const DETAILS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(DETAILS_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -159,7 +132,7 @@ class FilmDetails extends React.Component {
     }
 
     getVideo = () => {
-        const VIDEO_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const VIDEO_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(VIDEO_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -194,4 +167,4 @@ class FilmDetails extends React.Component {
     }
 }
 
-export default FilmDetails;
+export default SerialDetails;
