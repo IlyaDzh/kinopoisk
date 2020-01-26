@@ -15,7 +15,7 @@ class Aside extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link className='pl-button link' to="/movies">
+                            <Link className='pl-button link' to="/films">
                                 <FaFilm className='aside-icon' />
                                 Фильмы
                             </Link>

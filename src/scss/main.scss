@@ -201,9 +201,23 @@ a {
             }
         }
 
-        &__country {
+        &__list {
             list-style: none;
             display: flex;
+            flex-wrap: wrap;
+
+            &-link {
+                color: #fff;
+                text-decoration: underline;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            li {
+                margin-right: 5px;
+            }
         }
 
         &__title {
@@ -217,23 +231,13 @@ a {
             text-align: center;
         }
 
-        &__genres {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-
-            li {
-                margin-right: 5px;
-            }
-        }
-
         &__overview {
             margin-top: 40px;
         }
     }
 }
 
-.video {}
+// .video {}
 
 .loader {
     height: calc(100vh - 58px);

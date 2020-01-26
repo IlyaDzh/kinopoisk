@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner'
 import FilmWrapper from './FilmWrapper';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-class Serials extends React.Component {
+class Films extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -14,8 +14,8 @@ class Serials extends React.Component {
     }
 
     componentDidMount() {
-        const SERIALS_URL = 'https://api.themoviedb.org/3/discover/tv?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
-        fetch(SERIALS_URL).then(value => {
+        const FILMS_URL = 'https://api.themoviedb.org/3/discover/movie?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        fetch(FILMS_URL).then(value => {
             return value.json();
         }).then(output => {
             this.setState({
@@ -34,7 +34,7 @@ class Serials extends React.Component {
                 :
                 <div className='content'>
                     <div className='pl-container'>
-                        <h3 className='content__title'>Сериалы</h3>
+                        <h3 className='content__title'>Фильмы</h3>
                         <div className='pl-row'>
                             {
                                 this.state.movies.map(item => {
@@ -48,4 +48,4 @@ class Serials extends React.Component {
     }
 }
 
-export default Serials;
+export default Films;

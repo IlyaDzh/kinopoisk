@@ -35,20 +35,20 @@ const Details = (props) => {
                         <table className='info-table'>
                             <tbody>
                                 <tr>
-                                    <td>Рейтинг:</td>
-                                    <td>{props.details.vote_average} / 10</td>
-                                </tr>
-                                <tr>
                                     <td>Год выхода:</td>
                                     <td>{props.details.release_date.substring(4, 0)}</td>
                                 </tr>
                                 <tr>
+                                    <td>Рейтинг:</td>
+                                    <td>{props.details.vote_average} / 10</td>
+                                </tr>
+                                <tr>
                                     <td>Страна:</td>
                                     <td>
-                                        <ul className='info__country'>
+                                        <ul className='info__list'>
                                             {
                                                 props.details.production_countries.map((item, index) => {
-                                                    return <li key={index}>{(index ? ', ' : '') + item.name}</li>
+                                                    return <li key={index}>{item.name}{props.details.production_countries.length - 1 === index ? '' : ','}</li>
                                                 })
                                             }
                                         </ul>
@@ -56,15 +56,15 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Слоган:</td>
-                                    <td>{props.details.tagline}</td>
+                                    <td>{props.details.tagline ? props.details.tagline : "-----"}</td>
                                 </tr>
                                 <tr>
                                     <td>Жанры:</td>
                                     <td>
-                                        <ul className='info__genres'>
+                                        <ul className='info__list'>
                                             {
-                                                props.details.genres.map((item) => {
-                                                    return <li key={item.id}>{item.name}</li>
+                                                props.details.genres.map((item, index) => {
+                                                    return <li key={item.id}>{item.name}{props.details.genres.length - 1 === index ? '' : ','}</li>
                                                 })
                                             }
                                         </ul>

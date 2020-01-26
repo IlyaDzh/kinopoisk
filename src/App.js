@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Aside from './components/Aside';
 import Search from './components/Search';
 import Popular from './components/Popular';
+import Films from './components/Films';
 import Serials from './components/Serials';
 // import Favorites from './components/Favorites';
 // import Random from './components/Random';
@@ -23,9 +24,10 @@ class App extends React.Component {
                 <Aside />
                 <Switch>
                     <Route exact path='/' component={Popular} />
-                    {/* <Route exact path='/favorites' component={Favorites} /> */}
                     <Route exact path='/search/:filmName' component={Search} />
+                    <Route exact path='/films' component={Films} />
                     <Route exact path='/serials' component={Serials} />
+                    {/* <Route exact path='/favorites' component={Favorites} /> */}
                     {/* <Route exact path='/random' component={Random} /> */}
                     <Route exact path='/movie/:filmId' component={FilmDetails} />
                     <Route exact path='/tv/:serialId' component={SerialDetails} />

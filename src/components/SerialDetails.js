@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
 
 import ErrorPage from './ErrorPage';
@@ -34,26 +35,63 @@ const Details = (props) => {
                         <table className='info-table'>
                             <tbody>
                                 <tr>
-                                    <td>Рейтинг:</td>
-                                    <td>{props.details.vote_average} / 10</td>
-                                </tr>
-                                <tr>
                                     <td>Год выхода:</td>
                                     <td>{props.details.first_air_date.substring(4, 0)}</td>
                                 </tr>
                                 <tr>
+                                    <td>Рейтинг:</td>
+                                    <td>{props.details.vote_average} / 10</td>
+                                </tr>
+                                <tr>
+                                    <td>Статус:</td>
+                                    <td>{props.details.in_production ? "В разработке" : "Закончено"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Количество сезонов:</td>
+                                    <td>{props.details.number_of_seasons}</td>
+                                </tr>
+                                <tr>
                                     <td>Страна:</td>
+                                    <td>{props.details.origin_country[0]}</td>
+                                </tr>
+                                {
+                                    props.details.networks.length ?
+                                        <tr>
+                                            <td>Телеканал:</td>
+                                            <td>
+                                                <Link to={`/network/${props.details.networks[0].id}`} className='info__list-link'>{props.details.networks[0].name}</Link>
+                                            </td>
+                                        </tr> : null
+                                }
+                                <tr>
+                                    <td>Режиссер:</td>
                                     <td>
-                                        <ul className='info__country'>
+                                        <ul className='info__list'>
                                             {
-                                                props.details.origin_country[0]
+                                                props.details.created_by.map((item, index) => {
+                                                    return <li key={item.id}>
+                                                        <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
+                                                        {props.details.created_by.length - 1 === index ? '' : ','}
+                                                    </li>
+                                                })
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Жанры:</td>
+                                    <td>
+                                        <ul className='info__list'>
+                                            {
+                                                props.details.genres.map((item, index) => {
+                                                    return <li key={item.id}>{item.name.toLowerCase()}{props.details.genres.length - 1 === index ? '' : ','}</li>
+                                                })
                                             }
                                         </ul>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
