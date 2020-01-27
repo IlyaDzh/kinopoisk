@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import ErrorPage from './ErrorPage';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import SeasonSlider from './Sliders/SeasonSlider';
+import ActorsSlider from './Sliders/ActorsSlider';
 
 const Details = (props) => {
     return (
@@ -24,7 +28,8 @@ const Details = (props) => {
                                 <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${props.details.poster_path}`} alt='poster' />
                                 :
                                 <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
-                        }                    </div>
+                        }
+                    </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
                         <h2 className='info__title'>
                             {props.details.name}
@@ -107,9 +112,28 @@ const Details = (props) => {
     )
 }
 
+const Seasons = (props) => {
+    return (
+        <div className='slider-section'>
+            <h4 className='text-bold text-center'>Сезоны:</h4>
+            <SeasonSlider slider={props.seasons} />
+        </div>
+    );
+}
+
+const Actors = (props) => {
+    return (
+        <div className='slider-section'>
+            <h4 className='text-bold text-center'>В главных ролях:</h4>
+            <ActorsSlider slider={props.actors} />
+        </div>
+    );
+}
+
 const Video = (props) => {
     return (
         <div className='video'>
+            <h4 className='text-bold text-center'>Трейлер:</h4>
             <iframe
                 width="100%" height="526"
                 title="trailer"
@@ -127,6 +151,7 @@ class SerialDetails extends React.Component {
         super(props);
         this.state = {
             details: [],
+            actors: [],
             video: null,
             load: false,
             error: false
@@ -135,6 +160,7 @@ class SerialDetails extends React.Component {
 
     componentDidMount() {
         this.getDetails();
+        this.getActors();
         this.getVideo();
     }
 
@@ -145,6 +171,7 @@ class SerialDetails extends React.Component {
                 load: false
             });
             this.getDetails();
+            this.getActors();
             this.getVideo();
         }
     }
@@ -169,12 +196,20 @@ class SerialDetails extends React.Component {
         });
     }
 
+    getActors = () => {
+        const ACTORS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(ACTORS_URL).then(response => {
+            return response.json();
+        }).then(output => {
+            this.setState({
+                actors: output.cast
+            });
+        });
+    }
+
     getVideo = () => {
         const VIDEO_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(VIDEO_URL).then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
             return response.json();
         }).then(output => {
             this.setState({
@@ -197,6 +232,8 @@ class SerialDetails extends React.Component {
                 !this.state.error ?
                     <div className='content'>
                         <Details details={this.state.details} />
+                        {this.state.details.seasons ? <Seasons seasons={this.state.details.seasons} /> : null}
+                        {this.state.actors.length ? <Actors actors={this.state.actors} /> : null}
                         {this.state.video ? <Video video={this.state.video} /> : null}
                     </div>
                     :

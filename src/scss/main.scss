@@ -237,7 +237,43 @@ a {
     }
 }
 
-// .video {}
+.video {
+    padding: 30px;
+}
+
+.slider-section {
+    margin-top: 20px;
+}
+
+.slider {
+    padding: 10px 50px 0px 50px;
+
+    &-wrapper {
+        text-align: center;
+
+        &__img {
+            margin: 0 auto;
+            max-width: 150px;
+            width: 100%;
+            padding: 0 5px;
+            display: inherit;
+        }
+    }
+
+    &__title {
+        font-weight: bold;
+    }
+
+    &__subtitle {
+        font-weight: lighter;
+    }
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+    font-size: 26px;
+}
 
 .loader {
     height: calc(100vh - 58px);
@@ -259,7 +295,7 @@ a {
         }
 
         &__name {
-            
+
             font-weight: bold;
         }
     }

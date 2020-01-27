@@ -1,8 +1,8 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ErrorPage from './ErrorPage';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 const Details = (props) => {
     return (
@@ -99,6 +99,7 @@ const Details = (props) => {
 const Video = (props) => {
     return (
         <div className='video'>
+            <h4 className='text-bold text-center'>Трейлер:</h4>
             <iframe
                 width="100%" height="526"
                 title="trailer"
@@ -161,9 +162,6 @@ class FilmDetails extends React.Component {
     getVideo = () => {
         const VIDEO_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(VIDEO_URL).then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
             return response.json();
         }).then(output => {
             this.setState({
