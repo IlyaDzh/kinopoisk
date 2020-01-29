@@ -11,6 +11,7 @@ import Serials from './components/Serials';
 // import Random from './components/Random';
 import FilmDetails from './components/FilmDetails';
 import SerialDetails from './components/SerialDetails';
+import PersonDetails from './components/PersonDetails';
 import ErrorPage from './components/ErrorPage';
 
 import 'plain-css/dist/plain.min.css';
@@ -31,6 +32,7 @@ class App extends React.Component {
                     {/* <Route exact path='/random' component={Random} /> */}
                     <Route exact path='/movie/:filmId' component={FilmDetails} />
                     <Route exact path='/tv/:serialId' component={SerialDetails} />
+                    <Route exact path='/person/:personId' component={PersonDetails} />
                     <Route component={ErrorPage} />
                 </Switch>
             </HashRouter>

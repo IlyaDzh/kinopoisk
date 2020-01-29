@@ -23,8 +23,8 @@ const ActorsSlider = (props) => {
                                     :
                                     <img className='slider-wrapper__img' src='https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png' alt='actor' />
                             }
-                            <p className='slider__title'>{item.name}</p>
-                            <p className='slider__subtitle'>{item.character}</p>
+                            <p className='slider__title' title={item.name}>{item.name}</p>
+                            <p className='slider__subtitle' title={item.character}>{item.character}</p>
                         </Link>
                     })
                 }

@@ -2,6 +2,12 @@ $header-bg: #444;
 $aside-bg: #333;
 $header-text: rgba(255, 255, 255, 0.7);
 
+%for-dots {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -237,6 +243,47 @@ a {
     }
 }
 
+.person {
+    &-wrapper {
+        padding: 20px 20px 41px 10px;
+    }
+
+    &-left {
+        padding-top: 15px;
+        background-color: #f1f1f1;
+    }
+
+    &-info {
+        margin-bottom: 10px;
+
+        &__name {
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        &__title {
+            margin-top: 10px;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        strong {
+            display: block;
+            padding-bottom: 6px;
+            font-weight: bold;
+        }
+
+        p:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &-slider {
+        padding: 10px 20px 0px 20px;
+    }
+}
+
 .video {
     padding: 30px;
 }
@@ -261,10 +308,12 @@ a {
     }
 
     &__title {
+        @extend %for-dots;
         font-weight: bold;
     }
 
     &__subtitle {
+        @extend %for-dots;
         font-weight: lighter;
     }
 }
