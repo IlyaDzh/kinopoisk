@@ -1,25 +1,25 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
 
-import SerialWrapper from './Wrappers/SerialWrapper';
+import PersonWrapper from './Wrappers/PersonWrapper';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-class Serials extends React.Component {
+class People extends React.Component {
     constructor() {
         super();
         this.state = {
-            movies: [],
+            people: [],
             load: false
         };
     }
 
     componentDidMount() {
-        const SERIALS_URL = 'https://api.themoviedb.org/3/discover/tv?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
-        fetch(SERIALS_URL).then(value => {
+        const PEOPLE_URL = 'https://api.themoviedb.org/3/person/popular?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        fetch(PEOPLE_URL).then(value => {
             return value.json();
         }).then(output => {
             this.setState({
-                movies: output.results,
+                people: output.results,
                 load: true
             });
         })
@@ -34,13 +34,13 @@ class Serials extends React.Component {
                 :
                 <div className='content'>
                     <div className='pl-container'>
-                        <h3 className='content__title'>Сериалы</h3>
+                        <h3 className='content__title'>Люди</h3>
                         <div className='pl-row'>
                             {
-                                this.state.movies.map(item => {
+                                this.state.people.map(item => {
                                     return (
                                         <div className='pl-col-lg-2 pl-col-md-3 pl-col-sm-3 col-mob' key={item.id}>
-                                            <SerialWrapper serial={item} />
+                                            <PersonWrapper person={item} />
                                         </div>
                                     )
                                 })
@@ -52,4 +52,4 @@ class Serials extends React.Component {
     }
 }
 
-export default Serials;
+export default People;

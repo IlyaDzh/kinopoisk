@@ -5,9 +5,10 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import ErrorPage from './ErrorPage';
-import SeasonSlider from './Sliders/SeasonSlider';
-import ActorsSlider from './Sliders/ActorsSlider';
+import ErrorPage from '../Others/ErrorPage';
+import SeasonSlider from '../Sliders/SeasonSlider';
+import ActorsSlider from '../Sliders/ActorsSlider';
+import RecommendSlider from '../Sliders/RecommendSlider';
 
 const Details = (props) => {
     return (
@@ -41,7 +42,7 @@ const Details = (props) => {
                             <tbody>
                                 <tr>
                                     <td>Год выхода:</td>
-                                    <td>{props.details.first_air_date.substring(4, 0)}</td>
+                                    <td>{props.details.first_air_date ? props.details.first_air_date.substring(4, 0) : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
@@ -100,9 +101,9 @@ const Details = (props) => {
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
-                            <h4 className='text-bold text-center'>Сюжет</h4>
+                            <h4 className='text-bold text-center'>Описание</h4>
                             <p>
-                                {props.details.overview}
+                                {props.details.overview ? props.details.overview : "Описание отсутствует"}
                             </p>
                         </div>
                     </div>
@@ -146,12 +147,22 @@ const Video = (props) => {
     );
 }
 
+const Recommended = (props) => {
+    return (
+        <div className='slider-section'>
+            <h4 className='text-bold text-center'>Рекомендуемое:</h4>
+            <RecommendSlider slider={props.recommended} />
+        </div>
+    );
+}
+
 class SerialDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             details: [],
             actors: [],
+            recommended: [],
             video: null,
             load: false,
             error: false
@@ -162,6 +173,7 @@ class SerialDetails extends React.Component {
         this.getDetails();
         this.getActors();
         this.getVideo();
+        this.getRecommended();
     }
 
     componentDidUpdate(prevProps) {
@@ -173,6 +185,7 @@ class SerialDetails extends React.Component {
             this.getDetails();
             this.getActors();
             this.getVideo();
+            this.getRecommended();
         }
     }
 
@@ -222,6 +235,17 @@ class SerialDetails extends React.Component {
         });
     }
 
+    getRecommended = () => {
+        const RECOMEND_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/recommendations?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(RECOMEND_URL).then(response => {
+            return response.json();
+        }).then(output => {
+            this.setState({
+                recommended: output.results
+            });
+        });
+    }
+
     render() {
         return (
             !this.state.load ?
@@ -232,9 +256,10 @@ class SerialDetails extends React.Component {
                 !this.state.error ?
                     <div className='content'>
                         <Details details={this.state.details} />
-                        {this.state.details.seasons ? <Seasons seasons={this.state.details.seasons} /> : null}
+                        {this.state.details.seasons.length ? <Seasons seasons={this.state.details.seasons} /> : null}
                         {this.state.actors.length ? <Actors actors={this.state.actors} /> : null}
                         {this.state.video ? <Video video={this.state.video} /> : null}
+                        {this.state.recommended.length ? <Recommended recommended={this.state.recommended} /> : null}
                     </div>
                     :
                     <ErrorPage />

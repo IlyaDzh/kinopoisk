@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaStar, FaFilm, FaDesktop, FaHeart, FaRandom } from 'react-icons/fa';
+import { GoPerson } from 'react-icons/go';
 
 class Aside extends React.Component {
     render() {
@@ -15,15 +16,21 @@ class Aside extends React.Component {
                             </Link>
                         </li>
                         <li>
-                            <Link className='pl-button link' to="/films">
+                            <Link className='pl-button link' to="/movie">
                                 <FaFilm className='aside-icon' />
                                 Фильмы
                             </Link>
                         </li>
                         <li>
-                            <Link className='pl-button link' to="/serials">
+                            <Link className='pl-button link' to="/tv">
                                 <FaDesktop className='aside-icon' />
                                 Сериалы
+                            </Link>
+                        </li>
+                        <li>
+                            <Link className='pl-button link' to="/people">
+                                <GoPerson className='aside-icon' />
+                                Люди
                             </Link>
                         </li>
                         <li>

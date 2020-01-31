@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
 
-import FilmWrapper from './FilmWrapper';
+import FilmWrapper from './Wrappers/FilmWrapper';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class Films extends React.Component {
@@ -38,7 +38,11 @@ class Films extends React.Component {
                         <div className='pl-row'>
                             {
                                 this.state.movies.map(item => {
-                                    return <FilmWrapper film={item} key={item.id} />
+                                    return (
+                                        <div className='pl-col-lg-2 pl-col-md-3 pl-col-sm-3 col-mob' key={item.id}>
+                                            <FilmWrapper film={item} />
+                                        </div>
+                                    )
                                 })
                             }
                         </div>

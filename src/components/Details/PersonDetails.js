@@ -2,8 +2,8 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-import ErrorPage from './ErrorPage';
-import KnownForSlider from './Sliders/KnownForSlider';
+import ErrorPage from '../Others/ErrorPage';
+import KnownForSlider from '../Sliders/KnownForSlider';
 
 const Details = (props) => {
     return (
@@ -51,7 +51,7 @@ const Details = (props) => {
                                 {props.details.biography ? props.details.biography : `We don't have a biography for ${props.details.name}.`}
                             </p>
                         </div>
-                        {props.known.length ? <KnownFor known={props.known} /> : null}
+                        <KnownFor movie={props.movie} tv={props.tv} />
                     </div>
                 </div>
             </div>
@@ -61,10 +61,24 @@ const Details = (props) => {
 
 const KnownFor = (props) => {
     return (
-        <div className='slider-section'>
-            <h5 className='text-bold'>Known For</h5>
-            <KnownForSlider slider={props.known} />
-        </div>
+        <section>
+            {
+                props.movie.length ? (
+                    <div className='slider-section'>
+                        <h5 className='text-bold'>Known For (Movie)</h5>
+                        <KnownForSlider slider={props.movie} />
+                    </div>
+                ) : null
+            }
+            {
+                props.tv.length ? (
+                    <div className='slider-section'>
+                        <h5 className='text-bold'>Known For (TV)</h5>
+                        <KnownForSlider slider={props.tv} />
+                    </div>
+                ) : null
+            }
+        </section>
     );
 }
 
@@ -73,7 +87,8 @@ class PersonDetails extends React.Component {
         super(props);
         this.state = {
             details: [],
-            known: [],
+            movie: [],
+            tv: [],
             load: false,
             error: false
         };
@@ -81,7 +96,8 @@ class PersonDetails extends React.Component {
 
     componentDidMount() {
         this.getDetails();
-        this.getKnown();
+        this.getMovie();
+        this.getTV();
     }
 
     componentDidUpdate(prevProps) {
@@ -91,7 +107,8 @@ class PersonDetails extends React.Component {
                 load: false
             });
             this.getDetails();
-            this.getKnown();
+            this.getMovie();
+            this.getTV();
         }
     }
 
@@ -115,14 +132,35 @@ class PersonDetails extends React.Component {
         });
     }
 
-    getKnown = () => {
-        const KNOWN_URL = `https://api.themoviedb.org/3/discover/movie?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&with_cast=${this.props.match.params.personId}&language=ru`;
-        fetch(KNOWN_URL).then(response => {
+    getMovie = () => {
+        const MOVIE_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/movie_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(MOVIE_URL).then(response => {
             return response.json();
         }).then(output => {
-            this.setState({
-                known: output.results
-            });
+            if (this.state.details.known_for_department === "Production" || this.state.details.known_for_department === "Writing")
+                this.setState({
+                    movie: output.crew
+                });
+            else
+                this.setState({
+                    movie: output.cast
+                });
+        });
+    }
+
+    getTV = () => {
+        const TV_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/tv_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(TV_URL).then(response => {
+            return response.json();
+        }).then(output => {
+            if (this.state.details.known_for_department === "Production" || this.state.details.known_for_department === "Writing")
+                this.setState({
+                    tv: output.crew
+                });
+            else
+                this.setState({
+                    tv: output.cast
+                });
         });
     }
 
@@ -135,7 +173,7 @@ class PersonDetails extends React.Component {
                 :
                 !this.state.error ?
                     <div className='content'>
-                        <Details details={this.state.details} known={this.state.known} />
+                        <Details details={this.state.details} movie={this.state.movie} tv={this.state.tv} />
                     </div>
                     :
                     <ErrorPage />

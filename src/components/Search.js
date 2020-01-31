@@ -1,12 +1,12 @@
 import React from 'react';
 
-import FilmWrapper from './FilmWrapper';
+import Wrapper from './Wrappers/Wrapper';
 
 class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            movies: [],
+            found: [],
             load: false,
             error: false
         };
@@ -32,7 +32,7 @@ class Search extends React.Component {
             return value.json();
         }).then(output => {
             this.setState({
-                movies: output.results
+                found: output.results
             });
         })
     }
@@ -41,11 +41,11 @@ class Search extends React.Component {
         return (
             <div className='content search'>
                 <div className='pl-container'>
-                    <h3 className='content__title'>Найдено</h3>
+                    <h3 className='content__title'>{this.state.found.length ? "Найдено" : "Не найдено"}</h3>
                     <div className='pl-row'>
                         {
-                            this.state.movies.map(item => {
-                                return <FilmWrapper film={item} key={item.id} />
+                            this.state.found.map(item => {
+                                return <Wrapper found={item} key={item.id} />
                             })
                         }
                     </div>

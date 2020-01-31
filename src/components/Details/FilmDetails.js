@@ -2,7 +2,8 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
-import ErrorPage from './ErrorPage';
+import ErrorPage from '../Others/ErrorPage';
+import RecommendSlider from '../Sliders/RecommendSlider';
 
 const Details = (props) => {
     return (
@@ -36,7 +37,7 @@ const Details = (props) => {
                             <tbody>
                                 <tr>
                                     <td>Год выхода:</td>
-                                    <td>{props.details.release_date.substring(4, 0)}</td>
+                                    <td>{props.details.release_date ? props.details.release_date.substring(4, 0) : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
@@ -56,7 +57,7 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Слоган:</td>
-                                    <td>{props.details.tagline ? props.details.tagline : "-----"}</td>
+                                    <td>{props.details.tagline ? props.details.tagline : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Жанры:</td>
@@ -84,9 +85,9 @@ const Details = (props) => {
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
-                            <h4 className='text-bold text-center'>Сюжет</h4>
+                            <h4 className='text-bold text-center'>Описание</h4>
                             <p>
-                                {props.details.overview}
+                                {props.details.overview ? props.details.overview : "Описание отсутствует"}
                             </p>
                         </div>
                     </div>
@@ -112,11 +113,21 @@ const Video = (props) => {
     );
 }
 
+const Recommended = (props) => {
+    return (
+        <div className='slider-section'>
+            <h4 className='text-bold text-center'>Рекомендуемое:</h4>
+            <RecommendSlider slider={props.recommended} type="movie" />
+        </div>
+    );
+}
+
 class FilmDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             details: [],
+            recommended: [],
             video: null,
             load: false,
             error: false
@@ -126,6 +137,7 @@ class FilmDetails extends React.Component {
     componentDidMount() {
         this.getDetails();
         this.getVideo();
+        this.getRecommended();
     }
 
     componentDidUpdate(prevProps) {
@@ -136,6 +148,7 @@ class FilmDetails extends React.Component {
             });
             this.getDetails();
             this.getVideo();
+            this.getRecommended();
         }
     }
 
@@ -174,6 +187,17 @@ class FilmDetails extends React.Component {
         });
     }
 
+    getRecommended = () => {
+        const RECOMEND_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/recommendations?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(RECOMEND_URL).then(response => {
+            return response.json();
+        }).then(output => {
+            this.setState({
+                recommended: output.results
+            });
+        });
+    }
+
     render() {
         return (
             !this.state.load ?
@@ -185,6 +209,7 @@ class FilmDetails extends React.Component {
                     <div className='content'>
                         <Details details={this.state.details} />
                         {this.state.video ? <Video video={this.state.video} /> : null}
+                        {this.state.recommended.length ? <Recommended recommended={this.state.recommended} /> : null}
                     </div>
                     :
                     <ErrorPage />
