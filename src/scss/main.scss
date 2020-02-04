@@ -284,6 +284,34 @@ a {
     }
 }
 
+.network {
+    padding: 20px 20px 41px 10px;
+
+    &-wrapper {
+        background-color: #f1f1f1;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    &__poster {
+        max-height: 100px;
+    }
+
+    &-list {
+        margin-top: 13px;
+        list-style: none;
+        display: flex;
+
+        li {
+            margin-right: 20px;
+        }
+
+        &__icon {
+            margin-right: 4px;
+        }
+    }
+}
+
 .video {
     padding: 30px 65px;
 }

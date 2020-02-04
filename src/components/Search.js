@@ -17,7 +17,7 @@ class Search extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.filmName !== prevProps.match.params.filmName) {
+        if (this.props.match.params.searchWord !== prevProps.match.params.searchWord) {
             this.setState({
                 error: false,
                 load: false
@@ -27,7 +27,7 @@ class Search extends React.Component {
     }
 
     getSearch = () => {
-        const SEARCH_URL = `https://api.themoviedb.org/3/search/multi?query=${this.props.match.params.filmName}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru&sort_by=popularity`;
+        const SEARCH_URL = `https://api.themoviedb.org/3/search/multi?query=${this.props.match.params.searchWord}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru&sort_by=popularity`;
         fetch(SEARCH_URL).then(value => {
             return value.json();
         }).then(output => {

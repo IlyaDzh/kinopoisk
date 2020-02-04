@@ -3,6 +3,7 @@ import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ErrorPage from '../Others/ErrorPage';
+import ActorsSlider from '../Sliders/ActorsSlider';
 import RecommendSlider from '../Sliders/RecommendSlider';
 
 const Details = (props) => {
@@ -97,6 +98,15 @@ const Details = (props) => {
     )
 }
 
+const Actors = (props) => {
+    return (
+        <div className='slider-section'>
+            <h4 className='text-bold text-center'>В главных ролях:</h4>
+            <ActorsSlider slider={props.actors} />
+        </div>
+    );
+}
+
 const Video = (props) => {
     return (
         <div className='video'>
@@ -127,6 +137,7 @@ class FilmDetails extends React.Component {
         super(props);
         this.state = {
             details: [],
+            actors: [],
             recommended: [],
             video: null,
             load: false,
@@ -136,6 +147,7 @@ class FilmDetails extends React.Component {
 
     componentDidMount() {
         this.getDetails();
+        this.getActors();
         this.getVideo();
         this.getRecommended();
     }
@@ -147,6 +159,7 @@ class FilmDetails extends React.Component {
                 load: false
             });
             this.getDetails();
+            this.getActors();
             this.getVideo();
             this.getRecommended();
         }
@@ -168,6 +181,17 @@ class FilmDetails extends React.Component {
             this.setState({
                 load: true,
                 error: true
+            });
+        });
+    }
+
+    getActors = () => {
+        const ACTORS_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        fetch(ACTORS_URL).then(response => {
+            return response.json();
+        }).then(output => {
+            this.setState({
+                actors: output.cast
             });
         });
     }
@@ -208,6 +232,7 @@ class FilmDetails extends React.Component {
                 !this.state.error ?
                     <div className='content'>
                         <Details details={this.state.details} />
+                        {this.state.actors.length ? <Actors actors={this.state.actors} /> : null}
                         {this.state.video ? <Video video={this.state.video} /> : null}
                         {this.state.recommended.length ? <Recommended recommended={this.state.recommended} /> : null}
                     </div>
