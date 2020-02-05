@@ -1,19 +1,19 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ErrorPage from '../Others/ErrorPage';
 import KnownForSlider from '../Sliders/KnownForSlider';
 
 const Details = (props) => {
+    const { details, movie, tv } = props;
     return (
         <div className='person'>
             <div className='pl-container'>
                 <div className='pl-row person-wrapper'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 person-left'>
                         {
-                            props.details.profile_path ?
-                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${props.details.profile_path}`} alt='poster' />
+                            details.profile_path ?
+                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.profile_path}`} alt='poster' />
                                 :
                                 <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
                         }
@@ -21,37 +21,37 @@ const Details = (props) => {
                             <h4 className='person-info__title'>Personal Info</h4>
                             <p>
                                 <strong>Known For</strong>
-                                {props.details.known_for_department ? props.details.known_for_department : "-"}
+                                {details.known_for_department ? details.known_for_department : "-"}
                             </p>
                             <p>
                                 <strong>Gender</strong>
-                                {props.details.gender === 1 ? "Female" : props.details.gender === 2 ? "Male" : "-"}
+                                {details.gender === 1 ? "Female" : details.gender === 2 ? "Male" : "-"}
                             </p>
                             <p>
                                 <strong>Birthday</strong>
-                                {props.details.birthday ? props.details.birthday : "-"}
+                                {details.birthday ? details.birthday : "-"}
                             </p>
                             <p>
                                 <strong>Place of Birth</strong>
-                                {props.details.place_of_birth ? props.details.place_of_birth : "-"}
+                                {details.place_of_birth ? details.place_of_birth : "-"}
                             </p>
                             <p>
                                 <strong>Official Site</strong>
-                                {props.details.homepage != null ? <a href={props.details.homepage} target='_blank' rel="noopener noreferrer">{props.details.homepage}</a> : "-"}
+                                {details.homepage != null ? <a href={details.homepage} target='_blank' rel="noopener noreferrer">{details.homepage}</a> : "-"}
                             </p>
                         </div>
                     </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9'>
                         <div className='person-info'>
                             <h1 className='person-info__name'>
-                                {props.details.name}
+                                {details.name}
                             </h1>
                             <h5 className='text-bold'>Biography</h5>
                             <p>
-                                {props.details.biography ? props.details.biography : `We don't have a biography for ${props.details.name}.`}
+                                {details.biography ? details.biography : `We don't have a biography for ${details.name}.`}
                             </p>
                         </div>
-                        <KnownFor movie={props.movie} tv={props.tv} />
+                        <KnownFor movie={movie} tv={tv} />
                     </div>
                 </div>
             </div>
@@ -165,15 +165,16 @@ class PersonDetails extends React.Component {
     }
 
     render() {
+        const { load, error, details, movie, tv } = this.state;
         return (
-            !this.state.load ?
+            !load ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
-                !this.state.error ?
+                !error ?
                     <div className='content'>
-                        <Details details={this.state.details} movie={this.state.movie} tv={this.state.tv} />
+                        <Details details={details} movie={movie} tv={tv} />
                     </div>
                     :
                     <ErrorPage />

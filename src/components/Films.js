@@ -2,14 +2,13 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 
 import FilmWrapper from './Wrappers/FilmWrapper';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class Films extends React.Component {
     constructor() {
         super();
         this.state = {
             movies: [],
-            load: false
+            loaded: false
         };
     }
 
@@ -20,14 +19,14 @@ class Films extends React.Component {
         }).then(output => {
             this.setState({
                 movies: output.results,
-                load: true
+                loaded: true
             });
         })
     }
 
     render() {
         return (
-            !this.state.load ?
+            !this.state.loaded ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>

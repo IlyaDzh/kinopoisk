@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from 'react-loader-spinner'
 
 import Wrapper from './Wrappers/Wrapper';
 
@@ -7,7 +8,7 @@ class Search extends React.Component {
         super(props);
         this.state = {
             found: [],
-            load: false,
+            loaded: false,
             error: false
         };
     }
@@ -20,7 +21,7 @@ class Search extends React.Component {
         if (this.props.match.params.searchWord !== prevProps.match.params.searchWord) {
             this.setState({
                 error: false,
-                load: false
+                loaded: false
             });
             this.getSearch();
         }
@@ -29,28 +30,54 @@ class Search extends React.Component {
     getSearch = () => {
         const SEARCH_URL = `https://api.themoviedb.org/3/search/multi?query=${this.props.match.params.searchWord}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru&sort_by=popularity`;
         fetch(SEARCH_URL).then(value => {
+            if (!value.ok) {
+                throw new Error("HTTP status " + value.status);
+            }
             return value.json();
         }).then(output => {
+            if (output.results.length === 0) {
+                throw new Error();
+            }
             this.setState({
-                found: output.results
+                found: output.results,
+                loaded: true
             });
-        })
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
+            });
+        });
     }
 
     render() {
+        const { loaded, error, found } = this.state;
+        const searchWord = this.props.match.params.searchWord;
         return (
-            <div className='content search'>
-                <div className='pl-container'>
-                    <h3 className='content__title'>{this.state.found.length ? "Найдено" : "Не найдено"}</h3>
-                    <div className='pl-row'>
-                        {
-                            this.state.found.map(item => {
-                                return <Wrapper found={item} key={item.id} />
-                            })
-                        }
-                    </div>
+            !loaded ?
+                <div className='content loader'>
+                    <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
-            </div>
+                :
+                !error ?
+                    <div className='content search'>
+                        <div className='pl-container'>
+                            <h3 className='content__title'>Найдено</h3>
+                            <div className='pl-row'>
+                                {
+                                    found.map(item => {
+                                        return <Wrapper found={item} key={item.id} />
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <div className='content search'>
+                        <div className='pl-container'>
+                            <h3 className='content__title'>Ничего не найдено по запросу "{searchWord}"</h3>
+                        </div>
+                    </div>
         );
     }
 }

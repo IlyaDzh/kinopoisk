@@ -20,7 +20,7 @@ class Header extends React.Component {
                     <img className='header__logo-inner' src={logo} alt='Kinopoisk' />
                 </Link>
                 <div className='header__search'>
-                    <input className='header__search-input' type='text' placeholder='Введите название фильма' autoComplete='off'
+                    <input className='header__search-input' type='text' placeholder='Введите название фильма, сериала или актера' autoComplete='off' spellCheck='false'
                         defaultValue={this.state.input}
                         onInput={e => this.setState({ input: e.target.value })}
                         onKeyPress={e => {

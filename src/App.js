@@ -18,6 +18,7 @@ import ErrorPage from './components/Others/ErrorPage';
 
 import 'plain-css/dist/plain.min.css';
 import './css/main.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class App extends React.Component {
     render() {

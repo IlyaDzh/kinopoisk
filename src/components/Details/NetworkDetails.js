@@ -1,26 +1,26 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
 import { FaLink, FaMapMarkerAlt, FaInfoCircle } from 'react-icons/fa';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ErrorPage from '../Others/ErrorPage';
 import NetworkSlider from '../Sliders/NetworkSlider';
 
 const Details = (props) => {
+    const { details, image, tv, countShow } = props;
     return (
         <div className='network'>
             <div className='pl-container network-wrapper'>
                 <div className='pl-row align-items-center'>
                     <div className='pl-col-sm-7 pl-col-md-5 pl-col-lg-3'>
                         {
-                            props.image !== "" ?
-                                <img className='network__poster' src={`https://image.tmdb.org/t/p/h100/${props.image}`} alt='poster' />
+                            image !== "" ?
+                                <img className='network__poster' src={`https://image.tmdb.org/t/p/h100/${image}`} alt='poster' />
                                 :
                                 <img className='network__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-5 pl-col-md-7 pl-col-lg-9'>
-                        <h4 className='text-right text-bold'>{props.countShow} shows</h4>
+                        <h4 className='text-right text-bold'>{countShow} shows</h4>
                     </div>
                 </div>
                 <div className='pl-row'>
@@ -28,17 +28,17 @@ const Details = (props) => {
                         <ul className='network-list'>
                             <li>
                                 <FaInfoCircle className='network-list__icon' />
-                                {props.details.name}
+                                {details.name}
                             </li>
                             <li>
                                 <FaMapMarkerAlt className='network-list__icon' />
-                                {props.details.headquarters ? props.details.headquarters : props.details.origin_country}
+                                {details.headquarters ? details.headquarters : details.origin_country}
                             </li>
                             {
-                                props.details.homepage !== "" ? (
+                                details.homepage !== "" ? (
                                     <li>
                                         <FaLink className='network-list__icon' />
-                                        <a href={props.details.homepage} target='_blank' rel="noopener noreferrer">Homepage</a>
+                                        <a href={details.homepage} target='_blank' rel="noopener noreferrer">Homepage</a>
                                     </li>
                                 )
                                     : null
@@ -47,7 +47,7 @@ const Details = (props) => {
                     </div>
                 </div>
             </div>
-            <Network tv={props.tv} />
+            <Network tv={tv} />
         </div>
     )
 }
@@ -153,15 +153,16 @@ class NetworkDetails extends React.Component {
     }
 
     render() {
+        const { load, error, details, image, tv, countShow } = this.state;
         return (
-            !this.state.load ?
+            !load ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
-                !this.state.error ?
+                !error ?
                     <div className='content'>
-                        <Details {...this.state} />
+                        <Details details={details} image={image} tv={tv} countShow={countShow} />
                     </div>
                     :
                     <ErrorPage />

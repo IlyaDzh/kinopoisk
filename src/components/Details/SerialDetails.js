@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -11,10 +10,11 @@ import ActorsSlider from '../Sliders/ActorsSlider';
 import RecommendSlider from '../Sliders/RecommendSlider';
 
 const Details = (props) => {
+    const { details } = props;
     return (
         <div className='details'
             style={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/original/${props.details.backdrop_path})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/original/${details.backdrop_path})`,
                 backgroundSize: 'cover',
                 backgroundColor: 'rgba(21, 16, 5, 0.85)',
                 backgroundRepeat: 'no-repeat',
@@ -25,47 +25,47 @@ const Details = (props) => {
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
-                            props.details.poster_path ?
-                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${props.details.poster_path}`} alt='poster' />
+                            details.poster_path ?
+                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} alt='poster' />
                                 :
                                 <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
                         <h2 className='info__title'>
-                            {props.details.name}
+                            {details.name}
                         </h2>
                         <h6 className='info__subtitle'>
-                            {props.details.original_name}
+                            {details.original_name}
                         </h6>
                         <table className='info-table'>
                             <tbody>
                                 <tr>
                                     <td>Год выхода:</td>
-                                    <td>{props.details.first_air_date ? props.details.first_air_date.substring(4, 0) : "-"}</td>
+                                    <td>{details.first_air_date ? details.first_air_date.substring(4, 0) : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
-                                    <td>{props.details.vote_average} / 10</td>
+                                    <td>{details.vote_average} / 10</td>
                                 </tr>
                                 <tr>
                                     <td>Статус:</td>
-                                    <td>{props.details.in_production ? "В разработке" : "Закончено"}</td>
+                                    <td>{details.in_production ? "В разработке" : "Закончено"}</td>
                                 </tr>
                                 <tr>
                                     <td>Количество сезонов:</td>
-                                    <td>{props.details.number_of_seasons}</td>
+                                    <td>{details.number_of_seasons}</td>
                                 </tr>
                                 <tr>
                                     <td>Страна:</td>
-                                    <td>{props.details.origin_country[0]}</td>
+                                    <td>{details.origin_country[0]}</td>
                                 </tr>
                                 {
-                                    props.details.networks.length ?
+                                    details.networks.length ?
                                         <tr>
                                             <td>Телеканал:</td>
                                             <td>
-                                                <Link to={`/network/${props.details.networks[0].id}`} className='info__list-link'>{props.details.networks[0].name}</Link>
+                                                <Link to={`/network/${details.networks[0].id}`} className='info__list-link'>{details.networks[0].name}</Link>
                                             </td>
                                         </tr> : null
                                 }
@@ -74,10 +74,10 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                props.details.created_by.map((item, index) => {
+                                                details.created_by.map((item, index) => {
                                                     return <li key={item.id}>
                                                         <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
-                                                        {props.details.created_by.length - 1 === index ? '' : ','}
+                                                        {details.created_by.length - 1 === index ? '' : ','}
                                                     </li>
                                                 })
                                             }
@@ -89,8 +89,8 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                props.details.genres.map((item, index) => {
-                                                    return <li key={item.id}>{item.name.toLowerCase()}{props.details.genres.length - 1 === index ? '' : ','}</li>
+                                                details.genres.map((item, index) => {
+                                                    return <li key={item.id}>{item.name.toLowerCase()}{details.genres.length - 1 === index ? '' : ','}</li>
                                                 })
                                             }
                                         </ul>
@@ -103,7 +103,7 @@ const Details = (props) => {
                         <div className='info__overview'>
                             <h4 className='text-bold text-center'>Описание</h4>
                             <p>
-                                {props.details.overview ? props.details.overview : "Описание отсутствует"}
+                                {details.overview ? details.overview : "Описание отсутствует"}
                             </p>
                         </div>
                     </div>
@@ -247,19 +247,20 @@ class SerialDetails extends React.Component {
     }
 
     render() {
+        const { details, actors, video, load, recommended, error } = this.state;
         return (
-            !this.state.load ?
+            !load ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
-                !this.state.error ?
+                !error ?
                     <div className='content'>
-                        <Details details={this.state.details} />
-                        {this.state.details.seasons.length ? <Seasons seasons={this.state.details.seasons} /> : null}
-                        {this.state.actors.length ? <Actors actors={this.state.actors} /> : null}
-                        {this.state.video ? <Video video={this.state.video} /> : null}
-                        {this.state.recommended.length ? <Recommended recommended={this.state.recommended} /> : null}
+                        <Details details={details} />
+                        {details.seasons.length ? <Seasons seasons={details.seasons} /> : null}
+                        {actors.length ? <Actors actors={actors} /> : null}
+                        {video ? <Video video={video} /> : null}
+                        {recommended.length ? <Recommended recommended={recommended} /> : null}
                     </div>
                     :
                     <ErrorPage />

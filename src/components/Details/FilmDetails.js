@@ -1,16 +1,16 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 import ErrorPage from '../Others/ErrorPage';
 import ActorsSlider from '../Sliders/ActorsSlider';
 import RecommendSlider from '../Sliders/RecommendSlider';
 
 const Details = (props) => {
+    const { details } = props;
     return (
         <div className='details'
             style={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/original/${props.details.backdrop_path})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/original/${details.backdrop_path})`,
                 backgroundSize: 'cover',
                 backgroundColor: 'rgba(21, 16, 5, 0.85)',
                 backgroundRepeat: 'no-repeat',
@@ -21,36 +21,36 @@ const Details = (props) => {
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
-                            props.details.poster_path ?
-                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${props.details.poster_path}`} alt='poster' />
+                            details.poster_path ?
+                                <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} alt='poster' />
                                 :
                                 <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
                         <h2 className='info__title'>
-                            {props.details.title}
+                            {details.title}
                         </h2>
                         <h6 className='info__subtitle'>
-                            {props.details.original_title}
+                            {details.original_title}
                         </h6>
                         <table className='info-table'>
                             <tbody>
                                 <tr>
                                     <td>Год выхода:</td>
-                                    <td>{props.details.release_date ? props.details.release_date.substring(4, 0) : "-"}</td>
+                                    <td>{details.release_date ? details.release_date.substring(4, 0) : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
-                                    <td>{props.details.vote_average} / 10</td>
+                                    <td>{details.vote_average} / 10</td>
                                 </tr>
                                 <tr>
                                     <td>Страна:</td>
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                props.details.production_countries.map((item, index) => {
-                                                    return <li key={index}>{item.name}{props.details.production_countries.length - 1 === index ? '' : ','}</li>
+                                                details.production_countries.map((item, index) => {
+                                                    return <li key={index}>{item.name}{details.production_countries.length - 1 === index ? '' : ','}</li>
                                                 })
                                             }
                                         </ul>
@@ -58,15 +58,15 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Слоган:</td>
-                                    <td>{props.details.tagline ? props.details.tagline : "-"}</td>
+                                    <td>{details.tagline ? details.tagline : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Жанры:</td>
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                props.details.genres.map((item, index) => {
-                                                    return <li key={item.id}>{item.name}{props.details.genres.length - 1 === index ? '' : ','}</li>
+                                                details.genres.map((item, index) => {
+                                                    return <li key={item.id}>{item.name}{details.genres.length - 1 === index ? '' : ','}</li>
                                                 })
                                             }
                                         </ul>
@@ -74,11 +74,11 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Бюджет:</td>
-                                    <td>${props.details.budget}</td>
+                                    <td>${details.budget}</td>
                                 </tr>
                                 <tr>
                                     <td>Время:</td>
-                                    <td>{props.details.runtime} мин.</td>
+                                    <td>{details.runtime} мин.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -88,7 +88,7 @@ const Details = (props) => {
                         <div className='info__overview'>
                             <h4 className='text-bold text-center'>Описание</h4>
                             <p>
-                                {props.details.overview ? props.details.overview : "Описание отсутствует"}
+                                {details.overview ? details.overview : "Описание отсутствует"}
                             </p>
                         </div>
                     </div>
@@ -223,18 +223,19 @@ class FilmDetails extends React.Component {
     }
 
     render() {
+        const { load, error, details, actors, video, recommended } = this.state;
         return (
-            !this.state.load ?
+            !load ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
-                !this.state.error ?
+                !error ?
                     <div className='content'>
-                        <Details details={this.state.details} />
-                        {this.state.actors.length ? <Actors actors={this.state.actors} /> : null}
-                        {this.state.video ? <Video video={this.state.video} /> : null}
-                        {this.state.recommended.length ? <Recommended recommended={this.state.recommended} /> : null}
+                        <Details details={details} />
+                        {actors.length ? <Actors actors={actors} /> : null}
+                        {video ? <Video video={video} /> : null}
+                        {recommended.length ? <Recommended recommended={recommended} /> : null}
                     </div>
                     :
                     <ErrorPage />
