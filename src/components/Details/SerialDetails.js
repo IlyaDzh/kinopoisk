@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -8,9 +9,10 @@ import ErrorPage from '../Others/ErrorPage';
 import SeasonSlider from '../Sliders/SeasonSlider';
 import ActorsSlider from '../Sliders/ActorsSlider';
 import RecommendSlider from '../Sliders/RecommendSlider';
+import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
-    const { details } = props;
+    const { details, goBack } = props;
     return (
         <div className='details'
             style={{
@@ -22,13 +24,20 @@ const Details = (props) => {
                 backgroundBlendMode: 'darken'
             }}>
             <div className='pl-container'>
+                <button
+                    className='button-back light'
+                    onClick={() => { goBack() }}
+                >
+                    <FaLongArrowAltLeft className='back-icon' />
+                    Назад
+                </button>
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
                             details.poster_path ?
                                 <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} alt='poster' />
                                 :
-                                <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
+                                <img className='details-header__poster' src={noposter} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
@@ -58,7 +67,7 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Страна:</td>
-                                    <td>{details.origin_country[0]}</td>
+                                    <td>{details.origin_country[0] ? details.origin_country[0] : "-"}</td>
                                 </tr>
                                 {
                                     details.networks.length ?
@@ -74,12 +83,14 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                details.created_by.map((item, index) => {
-                                                    return <li key={item.id}>
-                                                        <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
-                                                        {details.created_by.length - 1 === index ? '' : ','}
-                                                    </li>
-                                                })
+                                                details.created_by.length
+                                                    ? details.created_by.map((item, index) => {
+                                                        return <li key={item.id}>
+                                                            <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
+                                                            {details.created_by.length - 1 === index ? '' : ','}
+                                                        </li>
+                                                    })
+                                                    : "-"
                                             }
                                         </ul>
                                     </td>
@@ -164,7 +175,7 @@ class SerialDetails extends React.Component {
             actors: [],
             recommended: [],
             video: null,
-            load: false,
+            loaded: false,
             error: false
         };
     }
@@ -180,7 +191,8 @@ class SerialDetails extends React.Component {
         if (this.props.match.params.serialId !== prevProps.match.params.serialId) {
             this.setState({
                 error: false,
-                load: false
+                loaded: false,
+                video: null
             });
             this.getDetails();
             this.getActors();
@@ -199,11 +211,11 @@ class SerialDetails extends React.Component {
         }).then(output => {
             this.setState({
                 details: output,
-                load: true
+                loaded: true
             });
         }).catch(error => {
             this.setState({
-                load: true,
+                loaded: true,
                 error: true
             });
         });
@@ -212,10 +224,18 @@ class SerialDetails extends React.Component {
     getActors = () => {
         const ACTORS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(ACTORS_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
                 actors: output.cast
+            });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
             });
         });
     }
@@ -223,14 +243,18 @@ class SerialDetails extends React.Component {
     getVideo = () => {
         const VIDEO_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(VIDEO_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
-                video: output.results[output.results.length - 1].key
+                video: output.results.length ? output.results[output.results.length - 1].key : null
             });
         }).catch(error => {
             this.setState({
-                video: null
+                loaded: true,
+                error: true
             });
         });
     }
@@ -238,28 +262,36 @@ class SerialDetails extends React.Component {
     getRecommended = () => {
         const RECOMEND_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/recommendations?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(RECOMEND_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
                 recommended: output.results
             });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
+            });
         });
     }
 
     render() {
-        const { details, actors, video, load, recommended, error } = this.state;
+        const { details, actors, video, loaded, recommended, error } = this.state;
         return (
-            !load ?
+            !loaded ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
                 !error ?
                     <div className='content'>
-                        <Details details={details} />
+                        <Details details={details} goBack={this.props.history.goBack} />
                         {details.seasons.length ? <Seasons seasons={details.seasons} /> : null}
                         {actors.length ? <Actors actors={actors} /> : null}
-                        {video ? <Video video={video} /> : null}
+                        {video !== null && <Video video={video} /> }
                         {recommended.length ? <Recommended recommended={recommended} /> : null}
                     </div>
                     :

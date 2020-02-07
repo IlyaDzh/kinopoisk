@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import noposter from '../../img/noposter.png'
+
 const SerialWrapper = props => {
     const { serial } = props;
     return (
@@ -11,7 +13,7 @@ const SerialWrapper = props => {
                         serial.poster_path ?
                             <img className='films-wrapper_icon' src={`https://image.tmdb.org/t/p/w500/${serial.poster_path}`} alt='icon' />
                             :
-                            <img className='films-wrapper_icon' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='icon' />
+                            <img className='films-wrapper_icon' src={noposter} alt='icon' />
                     }
                     <span className='films-wrapper_vote'>{serial.vote_average}</span>
                 </div>

@@ -1,9 +1,10 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
-import { FaLink, FaMapMarkerAlt, FaInfoCircle } from 'react-icons/fa';
+import { FaLink, FaMapMarkerAlt, FaInfoCircle, FaLongArrowAltLeft } from 'react-icons/fa';
 
 import ErrorPage from '../Others/ErrorPage';
 import NetworkSlider from '../Sliders/NetworkSlider';
+import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
     const { details, image, tv, countShow } = props;
@@ -16,7 +17,7 @@ const Details = (props) => {
                             image !== "" ?
                                 <img className='network__poster' src={`https://image.tmdb.org/t/p/h100/${image}`} alt='poster' />
                                 :
-                                <img className='network__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
+                                <img className='network__poster' src={noposter} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-5 pl-col-md-7 pl-col-lg-9'>
@@ -35,13 +36,12 @@ const Details = (props) => {
                                 {details.headquarters ? details.headquarters : details.origin_country}
                             </li>
                             {
-                                details.homepage !== "" ? (
+                                details.homepage !== "" && (
                                     <li>
                                         <FaLink className='network-list__icon' />
                                         <a href={details.homepage} target='_blank' rel="noopener noreferrer">Homepage</a>
                                     </li>
                                 )
-                                    : null
                             }
                         </ul>
                     </div>
@@ -52,13 +52,25 @@ const Details = (props) => {
     )
 }
 
+const GoBack = (props) => {
+    return (
+        <button
+            className='button-back dark'
+            onClick={() => { props.goBack() }}
+        >
+            <FaLongArrowAltLeft className='back-icon' />
+            Назад
+    </button>
+    );
+}
+
 const Network = (props) => {
     return (
         <>
             {
                 props.tv.length ? (
                     <div className='slider-section'>
-                        <h5 className='text-bold'>Known For (TV)</h5>
+                        <h5 className='text-bold'>Production (TV)</h5>
                         <NetworkSlider slider={props.tv} />
                     </div>
                 ) : null
@@ -75,7 +87,7 @@ class NetworkDetails extends React.Component {
             image: "",
             tv: [],
             countShow: 0,
-            load: false,
+            loaded: false,
             error: false
         };
     }
@@ -90,7 +102,7 @@ class NetworkDetails extends React.Component {
         if (this.props.match.params.networkId !== prevProps.match.params.networkId) {
             this.setState({
                 error: false,
-                load: false,
+                loaded: false,
                 tv: []
             });
             this.getDetails();
@@ -112,7 +124,7 @@ class NetworkDetails extends React.Component {
             });
         }).catch(error => {
             this.setState({
-                load: true,
+                loaded: true,
                 error: true
             });
         });
@@ -128,11 +140,11 @@ class NetworkDetails extends React.Component {
         }).then(output => {
             this.setState({
                 image: output.logos.length ? output.logos[0].file_path : "",
-                load: true
+                loaded: true
             });
         }).catch(error => {
             this.setState({
-                load: true,
+                loaded: true,
                 error: true
             });
         });
@@ -142,26 +154,35 @@ class NetworkDetails extends React.Component {
         for (let count = 1; count <= 3; count++) {
             const PAGE_URL = `https://api.themoviedb.org/3/discover/tv?page=${count}&with_networks=${this.props.match.params.networkId}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
             fetch(PAGE_URL).then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP status " + response.status);
+                }
                 return response.json();
             }).then(output => {
                 this.setState({
                     tv: this.state.tv.concat(output.results),
                     countShow: output.total_results
                 });
+            }).catch(error => {
+                this.setState({
+                    loaded: true,
+                    error: true
+                });
             });
         }
     }
 
     render() {
-        const { load, error, details, image, tv, countShow } = this.state;
+        const { loaded, error, details, image, tv, countShow } = this.state;
         return (
-            !load ?
+            !loaded ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
                 !error ?
                     <div className='content'>
+                        <GoBack goBack={this.props.history.goBack} />
                         <Details details={details} image={image} tv={tv} countShow={countShow} />
                     </div>
                     :

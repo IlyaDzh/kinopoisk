@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { FaStar, FaFilm, FaDesktop, FaHeart, FaRandom } from 'react-icons/fa';
 import { GoPerson } from 'react-icons/go';
 
+import powered_by from '../../img/powered_by.png'
+
 class Aside extends React.Component {
     render() {
         return (
@@ -47,6 +49,7 @@ class Aside extends React.Component {
                         </li>
                     </ul>
                 </nav>
+                <img className='aside__powered' src={powered_by} alt='powered by' />
             </div>
         );
     }

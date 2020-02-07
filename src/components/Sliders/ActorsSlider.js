@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 
+import noposter from '../../img/noposter.png'
+
 const settings = {
     infinite: false,
     draggable: false,
@@ -21,7 +23,7 @@ const ActorsSlider = (props) => {
                                 item.profile_path ?
                                     <img className='slider-wrapper__img' src={`https://image.tmdb.org/t/p/w185/${item.profile_path}`} alt='actor' />
                                     :
-                                    <img className='slider-wrapper__img' src='https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png' alt='actor' />
+                                    <img className='slider-wrapper__img' src={noposter} alt='actor' />
                             }
                             <p className='slider__title' title={item.name}>{item.name}</p>
                             <p className='slider__subtitle' title={item.character}>{item.character}</p>

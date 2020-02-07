@@ -1,8 +1,10 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 
 import ErrorPage from '../Others/ErrorPage';
 import KnownForSlider from '../Sliders/KnownForSlider';
+import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
     const { details, movie, tv } = props;
@@ -15,7 +17,7 @@ const Details = (props) => {
                             details.profile_path ?
                                 <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.profile_path}`} alt='poster' />
                                 :
-                                <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
+                                <img className='details-header__poster' src={noposter} alt='poster' />
                         }
                         <div className='person-info'>
                             <h4 className='person-info__title'>Personal Info</h4>
@@ -61,7 +63,7 @@ const Details = (props) => {
 
 const KnownFor = (props) => {
     return (
-        <section>
+        <>
             {
                 props.movie.length ? (
                     <div className='slider-section'>
@@ -78,7 +80,19 @@ const KnownFor = (props) => {
                     </div>
                 ) : null
             }
-        </section>
+        </>
+    );
+}
+
+const GoBack = (props) => {
+    return (
+        <button
+            className='button-back dark'
+            onClick={() => { props.goBack() }}
+        >
+            <FaLongArrowAltLeft className='back-icon' />
+            Назад
+    </button>
     );
 }
 
@@ -89,7 +103,7 @@ class PersonDetails extends React.Component {
             details: [],
             movie: [],
             tv: [],
-            load: false,
+            loaded: false,
             error: false
         };
     }
@@ -104,7 +118,7 @@ class PersonDetails extends React.Component {
         if (this.props.match.params.personId !== prevProps.match.params.personId) {
             this.setState({
                 error: false,
-                load: false
+                loaded: false
             });
             this.getDetails();
             this.getMovie();
@@ -122,11 +136,11 @@ class PersonDetails extends React.Component {
         }).then(output => {
             this.setState({
                 details: output,
-                load: true
+                loaded: true
             });
         }).catch(error => {
             this.setState({
-                load: true,
+                loaded: true,
                 error: true
             });
         });
@@ -135,6 +149,9 @@ class PersonDetails extends React.Component {
     getMovie = () => {
         const MOVIE_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/movie_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(MOVIE_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             if (this.state.details.known_for_department === "Production" || this.state.details.known_for_department === "Writing")
@@ -145,12 +162,20 @@ class PersonDetails extends React.Component {
                 this.setState({
                     movie: output.cast
                 });
-        });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
+            });
+        });;
     }
 
     getTV = () => {
         const TV_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/tv_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(TV_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             if (this.state.details.known_for_department === "Production" || this.state.details.known_for_department === "Writing")
@@ -161,19 +186,25 @@ class PersonDetails extends React.Component {
                 this.setState({
                     tv: output.cast
                 });
-        });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
+            });
+        });;
     }
 
     render() {
-        const { load, error, details, movie, tv } = this.state;
+        const { loaded, error, details, movie, tv } = this.state;
         return (
-            !load ?
+            !loaded ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
                 !error ?
                     <div className='content'>
+                        <GoBack goBack={this.props.history.goBack} />
                         <Details details={details} movie={movie} tv={tv} />
                     </div>
                     :

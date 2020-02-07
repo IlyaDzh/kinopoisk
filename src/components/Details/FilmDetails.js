@@ -1,12 +1,14 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 
 import ErrorPage from '../Others/ErrorPage';
 import ActorsSlider from '../Sliders/ActorsSlider';
 import RecommendSlider from '../Sliders/RecommendSlider';
+import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
-    const { details } = props;
+    const { details, goBack } = props;
     return (
         <div className='details'
             style={{
@@ -18,13 +20,20 @@ const Details = (props) => {
                 backgroundBlendMode: 'darken'
             }}>
             <div className='pl-container'>
+                <button
+                    className='button-back light'
+                    onClick={() => { goBack() }}
+                >
+                    <FaLongArrowAltLeft className='back-icon' />
+                    Назад
+                </button>
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
                             details.poster_path ?
                                 <img className='details-header__poster' src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`} alt='poster' />
                                 :
-                                <img className='details-header__poster' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='poster' />
+                                <img className='details-header__poster' src={noposter} alt='poster' />
                         }
                     </div>
                     <div className='pl-col-sm-8 pl-col-md-7 pl-col-lg-9 info'>
@@ -49,9 +58,11 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                details.production_countries.map((item, index) => {
-                                                    return <li key={index}>{item.name}{details.production_countries.length - 1 === index ? '' : ','}</li>
-                                                })
+                                                details.production_countries.length
+                                                    ? details.production_countries.map((item, index) => {
+                                                        return <li key={index}>{item.name}{details.production_countries.length - 1 === index ? '' : ','}</li>
+                                                    })
+                                                    : "-"
                                             }
                                         </ul>
                                     </td>
@@ -65,9 +76,11 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                details.genres.map((item, index) => {
-                                                    return <li key={item.id}>{item.name}{details.genres.length - 1 === index ? '' : ','}</li>
-                                                })
+                                                details.genres.length
+                                                    ? details.genres.map((item, index) => {
+                                                        return <li key={item.id}>{item.name}{details.genres.length - 1 === index ? '' : ','}</li>
+                                                    })
+                                                    : "-"
                                             }
                                         </ul>
                                     </td>
@@ -82,7 +95,6 @@ const Details = (props) => {
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
@@ -140,7 +152,7 @@ class FilmDetails extends React.Component {
             actors: [],
             recommended: [],
             video: null,
-            load: false,
+            loaded: false,
             error: false
         };
     }
@@ -156,7 +168,8 @@ class FilmDetails extends React.Component {
         if (this.props.match.params.filmId !== prevProps.match.params.filmId) {
             this.setState({
                 error: false,
-                load: false
+                loaded: false,
+                video: null
             });
             this.getDetails();
             this.getActors();
@@ -175,11 +188,11 @@ class FilmDetails extends React.Component {
         }).then(output => {
             this.setState({
                 details: output,
-                load: true
+                loaded: true
             });
         }).catch(error => {
             this.setState({
-                load: true,
+                loaded: true,
                 error: true
             });
         });
@@ -188,10 +201,18 @@ class FilmDetails extends React.Component {
     getActors = () => {
         const ACTORS_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(ACTORS_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
                 actors: output.cast
+            });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
             });
         });
     }
@@ -199,42 +220,50 @@ class FilmDetails extends React.Component {
     getVideo = () => {
         const VIDEO_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(VIDEO_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
-                video: output.results[output.results.length - 1].key
+                video: output.results.length ? output.results[output.results.length - 1].key : null
             });
-        }).catch(error => {
-            this.setState({
-                video: null
-            });
-        });
+        })
+            .catch(error => { });
     }
 
     getRecommended = () => {
         const RECOMEND_URL = `https://api.themoviedb.org/3/movie/${this.props.match.params.filmId}/recommendations?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
         fetch(RECOMEND_URL).then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP status " + response.status);
+            }
             return response.json();
         }).then(output => {
             this.setState({
                 recommended: output.results
             });
+        }).catch(error => {
+            this.setState({
+                loaded: true,
+                error: true
+            });
         });
     }
 
     render() {
-        const { load, error, details, actors, video, recommended } = this.state;
+        const { loaded, error, details, actors, video, recommended } = this.state;
         return (
-            !load ?
+            !loaded ?
                 <div className='content loader'>
                     <Loader type="Oval" color="#444" height={80} width={80} />
                 </div>
                 :
                 !error ?
                     <div className='content'>
-                        <Details details={details} />
+                        <Details details={details} goBack={this.props.history.goBack} />
                         {actors.length ? <Actors actors={actors} /> : null}
-                        {video ? <Video video={video} /> : null}
+                        {video != null && <Video video={video} />}
                         {recommended.length ? <Recommended recommended={recommended} /> : null}
                     </div>
                     :

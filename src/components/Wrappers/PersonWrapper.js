@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import noposter from '../../img/noposter.png'
+
 const PersonWrapper = props => {
     const { person } = props;
     return (
@@ -11,7 +13,7 @@ const PersonWrapper = props => {
                         person.profile_path ?
                             <img className='films-wrapper_icon' src={`https://image.tmdb.org/t/p/w500/${person.profile_path}`} alt='icon' />
                             :
-                            <img className='films-wrapper_icon' src={'https://kinomaiak.ru/wp-content/uploads/2018/02/noposter.png'} alt='icon' />
+                            <img className='films-wrapper_icon' src={noposter} alt='icon' />
                     }
                 </div>
                 <h6 className='films-wrapper_title' title={person.name}>{person.name}</h6>
