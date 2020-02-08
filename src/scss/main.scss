@@ -52,6 +52,22 @@ a {
     }
 }
 
+// .button
+.button-like {
+    margin-right: 15px;
+    padding-left: 20px;
+    margin-left: auto;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding-top: 15px;
+    padding-left: 11px;
+    transition: .2s ease-out;
+}
+
 .pl-container {
     max-width: 100%;
 }
@@ -85,25 +101,12 @@ a {
             margin-bottom: 0;
             background-color: #f2f2f2;
             border: none;
-            padding-right: 37px;
+            padding-right: 65px;
 
             &:focus {
                 background-color: #fff;
                 border: none;
             }
-        }
-
-        &-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 37px;
-            height: 100%;
-            font-size: 18px;
-            border: none;
-            background-color: transparent;
-            color: #444;
-            cursor: pointer;
         }
     }
 
@@ -117,6 +120,40 @@ a {
             &:hover,
             &:active {
                 color: #fff;
+            }
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        color: #444;
+        cursor: pointer;
+        top: 0;
+
+        &.search {
+            right: 4px;
+            font-size: 18px;
+            padding-top: 4px;
+            padding-left: 6px;
+            padding-right: 6px;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &.delete {
+            right: 35px;
+            font-size: 22px;
+            padding-top: 4px;
+            padding-left: 6px;
+            padding-right: 6px;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
             }
         }
     }
@@ -137,15 +174,6 @@ a {
 
     &-icon {
         margin-right: 10px;
-    }
-
-    &__powered {
-        width: 165px;
-        position: absolute;
-        bottom: 80px;
-        left: 50%;
-        top: 84%;
-        transform: translate(-50%, -50%);
     }
 
     &-nav {

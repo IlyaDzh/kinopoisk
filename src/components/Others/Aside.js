@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { FaStar, FaFilm, FaDesktop, FaHeart, FaRandom } from 'react-icons/fa';
 import { GoPerson } from 'react-icons/go';
 
-import powered_by from '../../img/powered_by.png'
-
 class Aside extends React.Component {
     render() {
         return (
@@ -13,12 +11,6 @@ class Aside extends React.Component {
                     <ul className='aside-nav__list'>
                         <li>
                             <Link className='pl-button link' to="/">
-                                <FaStar className='aside-icon' />
-                                Популярные
-                            </Link>
-                        </li>
-                        <li>
-                            <Link className='pl-button link' to="/movie">
                                 <FaFilm className='aside-icon' />
                                 Фильмы
                             </Link>
@@ -36,6 +28,12 @@ class Aside extends React.Component {
                             </Link>
                         </li>
                         <li>
+                            <Link className='pl-button link' to="/upcoming">
+                                <FaStar className='aside-icon' />
+                                Скоро выйдет
+                            </Link>
+                        </li>
+                        <li>
                             <Link className='pl-button link' to="/favorites">
                                 <FaHeart className='aside-icon' />
                                 В избранном
@@ -49,7 +47,6 @@ class Aside extends React.Component {
                         </li>
                     </ul>
                 </nav>
-                <img className='aside__powered' src={powered_by} alt='powered by' />
             </div>
         );
     }

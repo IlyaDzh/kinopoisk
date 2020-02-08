@@ -15,7 +15,7 @@ const SerialWrapper = props => {
                             :
                             <img className='films-wrapper_icon' src={noposter} alt='icon' />
                     }
-                    <span className='films-wrapper_vote'>{serial.vote_average}</span>
+                    <span className='films-wrapper_vote'>{serial.vote_average !== 0 ? serial.vote_average : "-"}</span>
                 </div>
                 <h6 className='films-wrapper_title' title={serial.name}>{serial.name}</h6>
                 <h6 className='films-wrapper_subtitle' title={serial.original_name}>{serial.original_name}</h6>

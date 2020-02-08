@@ -3,9 +3,9 @@ import React from 'react';
 class Favorites extends React.Component {
     render() {
         return (
-            <div className='content favorites'>
+            <div className='content'>
                 <div className='pl-container'>
-                    Favorites
+                    <h3 className='content__title'>В избранном</h3>
                 </div>
             </div>
         );

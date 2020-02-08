@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
-import { FaLongArrowAltLeft } from 'react-icons/fa';
+import { FaLongArrowAltLeft, FaStar } from 'react-icons/fa';
 
 import ErrorPage from '../Others/ErrorPage';
 import ActorsSlider from '../Sliders/ActorsSlider';
@@ -20,13 +20,22 @@ const Details = (props) => {
                 backgroundBlendMode: 'darken'
             }}>
             <div className='pl-container'>
-                <button
-                    className='button-back light'
-                    onClick={() => { goBack() }}
-                >
-                    <FaLongArrowAltLeft className='back-icon' />
-                    Назад
-                </button>
+                <div className='d-flex'>
+                    <button
+                        className='button-back light'
+                        onClick={() => { goBack() }}
+                    >
+                        <FaLongArrowAltLeft className='back-icon' />
+                        Назад
+                    </button>
+                    <button
+                        className='button-like'
+                        onClick={() => { goBack() }}
+                    >
+                        <FaStar />
+                        Добавить в избранное
+                    </button>
+                </div>
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
@@ -51,7 +60,7 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
-                                    <td>{details.vote_average} / 10</td>
+                                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Страна:</td>
@@ -87,11 +96,17 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Бюджет:</td>
-                                    <td>${details.budget}</td>
+                                    <td>
+                                        {
+                                            details.budget !== 0
+                                                ? details.budget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " $"
+                                                : "-"
+                                        }
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Время:</td>
-                                    <td>{details.runtime} мин.</td>
+                                    <td>{details.runtime !== 0 && details.runtime !== null ? `${details.runtime} мин.` : "-"}</td>
                                 </tr>
                             </tbody>
                         </table>

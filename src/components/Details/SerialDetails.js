@@ -55,7 +55,7 @@ const Details = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Рейтинг:</td>
-                                    <td>{details.vote_average} / 10</td>
+                                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
                                 </tr>
                                 <tr>
                                     <td>Статус:</td>
@@ -100,9 +100,11 @@ const Details = (props) => {
                                     <td>
                                         <ul className='info__list'>
                                             {
-                                                details.genres.map((item, index) => {
+                                                details.genres.length
+                                                ? details.genres.map((item, index) => {
                                                     return <li key={item.id}>{item.name.toLowerCase()}{details.genres.length - 1 === index ? '' : ','}</li>
                                                 })
+                                                : "-"
                                             }
                                         </ul>
                                     </td>
