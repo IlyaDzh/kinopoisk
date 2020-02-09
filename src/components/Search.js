@@ -60,7 +60,7 @@ class Search extends React.Component {
                 </div>
                 :
                 !error ?
-                    <div className='content search'>
+                    <div className='content'>
                         <div className='pl-container'>
                             <h3 className='content__title'>Найдено</h3>
                             <div className='pl-row'>

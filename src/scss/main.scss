@@ -1,6 +1,7 @@
 $header-bg: #444;
 $aside-bg: #333;
 $header-text: rgba(255, 255, 255, 0.7);
+$like-btn: #fb3232;
 
 %for-dots {
     white-space: nowrap;
@@ -52,8 +53,8 @@ a {
     }
 }
 
-// .button
 .button-like {
+    color: $like-btn;
     margin-right: 15px;
     padding-left: 20px;
     margin-left: auto;
@@ -66,6 +67,15 @@ a {
     padding-top: 15px;
     padding-left: 11px;
     transition: .2s ease-out;
+
+    &:hover {
+        color: rgba($like-btn, 0.7);
+    }
+
+    .like-icon {
+        font-size: 18px;
+        margin-right: 10px;
+    }
 }
 
 .pl-container {

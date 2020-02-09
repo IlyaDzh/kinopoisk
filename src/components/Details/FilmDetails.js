@@ -1,6 +1,7 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
-import { FaLongArrowAltLeft, FaStar } from 'react-icons/fa';
+import cookie from 'react-cookies'
+import { FaLongArrowAltLeft, FaHeart } from 'react-icons/fa';
 
 import ErrorPage from '../Others/ErrorPage';
 import ActorsSlider from '../Sliders/ActorsSlider';
@@ -8,7 +9,7 @@ import RecommendSlider from '../Sliders/RecommendSlider';
 import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
-    const { details, goBack } = props;
+    const { details, liked, goBack, addToFavorites, deleteFromFavorites } = props;
     return (
         <div className='details'
             style={{
@@ -21,20 +22,21 @@ const Details = (props) => {
             }}>
             <div className='pl-container'>
                 <div className='d-flex'>
-                    <button
-                        className='button-back light'
-                        onClick={() => { goBack() }}
-                    >
+                    <button className='button-back light' onClick={() => { goBack() }}>
                         <FaLongArrowAltLeft className='back-icon' />
                         Назад
                     </button>
-                    <button
-                        className='button-like'
-                        onClick={() => { goBack() }}
-                    >
-                        <FaStar />
-                        Добавить в избранное
-                    </button>
+                    {
+                        liked
+                            ? <button className='button-like' onClick={() => { deleteFromFavorites() }}>
+                                <FaHeart className='like-icon' />
+                                Удалить из избранного
+                            </button>
+                            : <button className='button-like' onClick={() => { addToFavorites() }}>
+                                <FaHeart className='like-icon' />
+                                В избранное
+                            </button>
+                    }
                 </div>
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
@@ -52,64 +54,7 @@ const Details = (props) => {
                         <h6 className='info__subtitle'>
                             {details.original_title}
                         </h6>
-                        <table className='info-table'>
-                            <tbody>
-                                <tr>
-                                    <td>Год выхода:</td>
-                                    <td>{details.release_date ? details.release_date.substring(4, 0) : "-"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Рейтинг:</td>
-                                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Страна:</td>
-                                    <td>
-                                        <ul className='info__list'>
-                                            {
-                                                details.production_countries.length
-                                                    ? details.production_countries.map((item, index) => {
-                                                        return <li key={index}>{item.name}{details.production_countries.length - 1 === index ? '' : ','}</li>
-                                                    })
-                                                    : "-"
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Слоган:</td>
-                                    <td>{details.tagline ? details.tagline : "-"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Жанры:</td>
-                                    <td>
-                                        <ul className='info__list'>
-                                            {
-                                                details.genres.length
-                                                    ? details.genres.map((item, index) => {
-                                                        return <li key={item.id}>{item.name}{details.genres.length - 1 === index ? '' : ','}</li>
-                                                    })
-                                                    : "-"
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Бюджет:</td>
-                                    <td>
-                                        {
-                                            details.budget !== 0
-                                                ? details.budget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " $"
-                                                : "-"
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Время:</td>
-                                    <td>{details.runtime !== 0 && details.runtime !== null ? `${details.runtime} мин.` : "-"}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <Table details={details} />
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
@@ -122,6 +67,70 @@ const Details = (props) => {
                 </div>
             </div>
         </div>
+    )
+}
+
+const Table = (props) => {
+    const { details } = props
+    return (
+        <table className='info-table'>
+            <tbody>
+                <tr>
+                    <td>Год выхода:</td>
+                    <td>{details.release_date ? details.release_date.substring(4, 0) : "-"}</td>
+                </tr>
+                <tr>
+                    <td>Рейтинг:</td>
+                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
+                </tr>
+                <tr>
+                    <td>Страна:</td>
+                    <td>
+                        <ul className='info__list'>
+                            {
+                                details.production_countries.length
+                                    ? details.production_countries.map((item, index) => {
+                                        return <li key={index}>{item.name}{details.production_countries.length - 1 === index ? '' : ','}</li>
+                                    })
+                                    : "-"
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Слоган:</td>
+                    <td>{details.tagline ? details.tagline : "-"}</td>
+                </tr>
+                <tr>
+                    <td>Жанры:</td>
+                    <td>
+                        <ul className='info__list'>
+                            {
+                                details.genres.length
+                                    ? details.genres.map((item, index) => {
+                                        return <li key={item.id}>{item.name}{details.genres.length - 1 === index ? '' : ','}</li>
+                                    })
+                                    : "-"
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Бюджет:</td>
+                    <td>
+                        {
+                            details.budget !== 0
+                                ? details.budget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " $"
+                                : "-"
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Время:</td>
+                    <td>{details.runtime !== 0 && details.runtime !== null ? `${details.runtime} мин.` : "-"}</td>
+                </tr>
+            </tbody>
+        </table>
     )
 }
 
@@ -167,6 +176,7 @@ class FilmDetails extends React.Component {
             actors: [],
             recommended: [],
             video: null,
+            liked: false,
             loaded: false,
             error: false
         };
@@ -174,6 +184,7 @@ class FilmDetails extends React.Component {
 
     componentDidMount() {
         this.getDetails();
+        this.checkLiked();
         this.getActors();
         this.getVideo();
         this.getRecommended();
@@ -184,9 +195,11 @@ class FilmDetails extends React.Component {
             this.setState({
                 error: false,
                 loaded: false,
-                video: null
+                video: null,
+                liked: false
             });
             this.getDetails();
+            this.checkLiked();
             this.getActors();
             this.getVideo();
             this.getRecommended();
@@ -266,8 +279,72 @@ class FilmDetails extends React.Component {
         });
     }
 
+    addToFavorites = () => {
+        const { details } = this.state;
+        const expires = new Date();
+        expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14);
+
+        if (cookie.loadAll().favorites === undefined) {
+            cookie.save('favorites', [
+                {
+                    'id': details.id,
+                    'poster_path': details.poster_path,
+                    'vote_average': details.vote_average,
+                    'title': details.title,
+                    'original_title': details.original_title,
+                }
+            ], { path: '/', expires, maxAge: 1000 });
+        } else {
+            let mas = cookie.load('favorites')
+            mas.push({
+                'id': details.id,
+                'poster_path': details.poster_path,
+                'vote_average': details.vote_average,
+                'title': details.title,
+                'original_title': details.original_title,
+            });
+            cookie.save('favorites', mas, { path: '/', expires, maxAge: 1000 });
+        }
+
+        this.setState({
+            liked: true
+        })
+    }
+
+    deleteFromFavorites = () => {
+        const expires = new Date();
+        expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14);
+
+        let arr = cookie.load('favorites');
+        const urlId = Number(this.props.match.params.filmId);
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === urlId) {
+                arr.splice(i, 1)
+            }
+        }
+        cookie.save('favorites', arr, { path: '/', expires, maxAge: 1000 });
+
+        this.setState({
+            liked: false
+        })
+    }
+
+    checkLiked = () => {
+        let arr = cookie.load('favorites');
+        if (arr === undefined) return;
+        const urlId = Number(this.props.match.params.filmId);
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === urlId) {
+                this.setState({
+                    liked: true
+                })
+                return;
+            }
+        }
+    }
+
     render() {
-        const { loaded, error, details, actors, video, recommended } = this.state;
+        const { loaded, error, details, liked, actors, video, recommended } = this.state;
         return (
             !loaded ?
                 <div className='content loader'>
@@ -276,7 +353,13 @@ class FilmDetails extends React.Component {
                 :
                 !error ?
                     <div className='content'>
-                        <Details details={details} goBack={this.props.history.goBack} />
+                        <Details
+                            details={details}
+                            liked={liked}
+                            goBack={this.props.history.goBack}
+                            addToFavorites={this.addToFavorites}
+                            deleteFromFavorites={this.deleteFromFavorites}
+                        />
                         {actors.length ? <Actors actors={actors} /> : null}
                         {video != null && <Video video={video} />}
                         {recommended.length ? <Recommended recommended={recommended} /> : null}

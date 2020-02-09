@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
-import { FiDelete } from 'react-icons/fi';
+import { MdClear } from 'react-icons/md';
 
 import logo from '../../img/logo.png';
 
@@ -46,7 +46,7 @@ class Header extends React.Component {
                             this.InputRef.current.focus();
                         }}
                     >
-                        <FiDelete />
+                        <MdClear />
                     </button>
                     <Link to={`/search/${this.state.input}`} ref={this.SearchRef} >
                         <button className='header__btn search'><FaSearch /></button>

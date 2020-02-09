@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
-import { FaLongArrowAltLeft } from 'react-icons/fa';
+import cookie from 'react-cookies'
+import { FaLongArrowAltLeft, FaHeart } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -12,7 +13,7 @@ import RecommendSlider from '../Sliders/RecommendSlider';
 import noposter from '../../img/noposter.png'
 
 const Details = (props) => {
-    const { details, goBack } = props;
+    const { details, liked, goBack, addToFavorites, deleteFromFavorites } = props;
     return (
         <div className='details'
             style={{
@@ -24,13 +25,23 @@ const Details = (props) => {
                 backgroundBlendMode: 'darken'
             }}>
             <div className='pl-container'>
-                <button
-                    className='button-back light'
-                    onClick={() => { goBack() }}
-                >
-                    <FaLongArrowAltLeft className='back-icon' />
-                    Назад
-                </button>
+                <div className='d-flex'>
+                    <button className='button-back light' onClick={() => { goBack() }}>
+                        <FaLongArrowAltLeft className='back-icon' />
+                        Назад
+                    </button>
+                    {
+                        liked
+                            ? <button className='button-like' onClick={() => { deleteFromFavorites() }}>
+                                <FaHeart className='like-icon' />
+                                Удалить из избранного
+                            </button>
+                            : <button className='button-like' onClick={() => { addToFavorites() }}>
+                                <FaHeart className='like-icon' />
+                                В избранное
+                            </button>
+                    }
+                </div>
                 <div className='pl-row details-header'>
                     <div className='pl-col-sm-4 pl-col-md-5 pl-col-lg-3 col-img'>
                         {
@@ -47,70 +58,7 @@ const Details = (props) => {
                         <h6 className='info__subtitle'>
                             {details.original_name}
                         </h6>
-                        <table className='info-table'>
-                            <tbody>
-                                <tr>
-                                    <td>Год выхода:</td>
-                                    <td>{details.first_air_date ? details.first_air_date.substring(4, 0) : "-"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Рейтинг:</td>
-                                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Статус:</td>
-                                    <td>{details.in_production ? "В разработке" : "Закончено"}</td>
-                                </tr>
-                                <tr>
-                                    <td>Количество сезонов:</td>
-                                    <td>{details.number_of_seasons}</td>
-                                </tr>
-                                <tr>
-                                    <td>Страна:</td>
-                                    <td>{details.origin_country[0] ? details.origin_country[0] : "-"}</td>
-                                </tr>
-                                {
-                                    details.networks.length ?
-                                        <tr>
-                                            <td>Телеканал:</td>
-                                            <td>
-                                                <Link to={`/network/${details.networks[0].id}`} className='info__list-link'>{details.networks[0].name}</Link>
-                                            </td>
-                                        </tr> : null
-                                }
-                                <tr>
-                                    <td>Режиссер:</td>
-                                    <td>
-                                        <ul className='info__list'>
-                                            {
-                                                details.created_by.length
-                                                    ? details.created_by.map((item, index) => {
-                                                        return <li key={item.id}>
-                                                            <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
-                                                            {details.created_by.length - 1 === index ? '' : ','}
-                                                        </li>
-                                                    })
-                                                    : "-"
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Жанры:</td>
-                                    <td>
-                                        <ul className='info__list'>
-                                            {
-                                                details.genres.length
-                                                ? details.genres.map((item, index) => {
-                                                    return <li key={item.id}>{item.name.toLowerCase()}{details.genres.length - 1 === index ? '' : ','}</li>
-                                                })
-                                                : "-"
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <Table details={details} />
                     </div>
                     <div className='pl-col'>
                         <div className='info__overview'>
@@ -123,6 +71,76 @@ const Details = (props) => {
                 </div>
             </div>
         </div>
+    )
+}
+
+const Table = (props) => {
+    const { details } = props
+    return (
+        <table className='info-table'>
+            <tbody>
+                <tr>
+                    <td>Год выхода:</td>
+                    <td>{details.first_air_date ? details.first_air_date.substring(4, 0) : "-"}</td>
+                </tr>
+                <tr>
+                    <td>Рейтинг:</td>
+                    <td>{details.vote_average !== 0 ? `${details.vote_average} / 10` : "-"}</td>
+                </tr>
+                <tr>
+                    <td>Статус:</td>
+                    <td>{details.in_production ? "В разработке" : "Закончено"}</td>
+                </tr>
+                <tr>
+                    <td>Количество сезонов:</td>
+                    <td>{details.number_of_seasons}</td>
+                </tr>
+                <tr>
+                    <td>Страна:</td>
+                    <td>{details.origin_country[0] ? details.origin_country[0] : "-"}</td>
+                </tr>
+                {
+                    details.networks.length ?
+                        <tr>
+                            <td>Телеканал:</td>
+                            <td>
+                                <Link to={`/network/${details.networks[0].id}`} className='info__list-link'>{details.networks[0].name}</Link>
+                            </td>
+                        </tr> : null
+                }
+                <tr>
+                    <td>Режиссер:</td>
+                    <td>
+                        <ul className='info__list'>
+                            {
+                                details.created_by.length
+                                    ? details.created_by.map((item, index) => {
+                                        return <li key={item.id}>
+                                            <Link to={`/person/${item.id}`} className='info__list-link'>{item.name}</Link>
+                                            {details.created_by.length - 1 === index ? '' : ','}
+                                        </li>
+                                    })
+                                    : "-"
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Жанры:</td>
+                    <td>
+                        <ul className='info__list'>
+                            {
+                                details.genres.length
+                                    ? details.genres.map((item, index) => {
+                                        return <li key={item.id}>{item.name.toLowerCase()}{details.genres.length - 1 === index ? '' : ','}</li>
+                                    })
+                                    : "-"
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     )
 }
 
@@ -177,6 +195,7 @@ class SerialDetails extends React.Component {
             actors: [],
             recommended: [],
             video: null,
+            likes: false,
             loaded: false,
             error: false
         };
@@ -184,6 +203,7 @@ class SerialDetails extends React.Component {
 
     componentDidMount() {
         this.getDetails();
+        this.checkLiked();
         this.getActors();
         this.getVideo();
         this.getRecommended();
@@ -194,9 +214,11 @@ class SerialDetails extends React.Component {
             this.setState({
                 error: false,
                 loaded: false,
-                video: null
+                video: null,
+                liked: false
             });
             this.getDetails();
+            this.checkLiked();
             this.getActors();
             this.getVideo();
             this.getRecommended();
@@ -280,8 +302,72 @@ class SerialDetails extends React.Component {
         });
     }
 
+    addToFavorites = () => {
+        const { details } = this.state;
+        const expires = new Date();
+        expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14);
+
+        if (cookie.loadAll().favorites === undefined) {
+            cookie.save('favorites', [
+                {
+                    'id': details.id,
+                    'poster_path': details.poster_path,
+                    'vote_average': details.vote_average,
+                    'name': details.name,
+                    'original_name': details.original_name,
+                }
+            ], { path: '/', expires, maxAge: 1000 });
+        } else {
+            let mas = cookie.load('favorites')
+            mas.push({
+                'id': details.id,
+                'poster_path': details.poster_path,
+                'vote_average': details.vote_average,
+                'name': details.name,
+                'original_name': details.original_name,
+            });
+            cookie.save('favorites', mas, { path: '/', expires, maxAge: 1000 });
+        }
+
+        this.setState({
+            liked: true
+        })
+    }
+
+    deleteFromFavorites = () => {
+        const expires = new Date();
+        expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14);
+
+        let arr = cookie.load('favorites');
+        const urlId = Number(this.props.match.params.serialId);
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === urlId) {
+                arr.splice(i, 1)
+            }
+        }
+        cookie.save('favorites', arr, { path: '/', expires, maxAge: 1000 });
+
+        this.setState({
+            liked: false
+        })
+    }
+
+    checkLiked = () => {
+        let arr = cookie.load('favorites');
+        if (arr === undefined) return;
+        const urlId = Number(this.props.match.params.serialId);
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === urlId) {
+                this.setState({
+                    liked: true
+                })
+                return;
+            }
+        }
+    }
+
     render() {
-        const { details, actors, video, loaded, recommended, error } = this.state;
+        const { details, liked, actors, video, recommended, loaded, error } = this.state;
         return (
             !loaded ?
                 <div className='content loader'>
@@ -290,10 +376,16 @@ class SerialDetails extends React.Component {
                 :
                 !error ?
                     <div className='content'>
-                        <Details details={details} goBack={this.props.history.goBack} />
+                        <Details
+                            details={details}
+                            liked={liked}
+                            goBack={this.props.history.goBack}
+                            addToFavorites={this.addToFavorites}
+                            deleteFromFavorites={this.deleteFromFavorites}
+                        />
                         {details.seasons.length ? <Seasons seasons={details.seasons} /> : null}
                         {actors.length ? <Actors actors={actors} /> : null}
-                        {video !== null && <Video video={video} /> }
+                        {video !== null && <Video video={video} />}
                         {recommended.length ? <Recommended recommended={recommended} /> : null}
                     </div>
                     :
