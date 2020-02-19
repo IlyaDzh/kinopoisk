@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 
 import Wrapper from './Wrappers/Wrapper';
+import { API_KEY } from '../config/config.js'
 
 class Search extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class Search extends React.Component {
     }
 
     getSearch = () => {
-        const SEARCH_URL = `https://api.themoviedb.org/3/search/multi?query=${this.props.match.params.searchWord}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru&sort_by=popularity`;
+        const SEARCH_URL = `https://api.themoviedb.org/3/search/multi?query=${this.props.match.params.searchWord}&api_key=${API_KEY}&language=ru&sort_by=popularity`;
         fetch(SEARCH_URL).then(value => {
             if (!value.ok) {
                 throw new Error("HTTP status " + value.status);
@@ -73,7 +74,7 @@ class Search extends React.Component {
                         </div>
                     </div>
                     :
-                    <div className='content search'>
+                    <div className='content'>
                         <div className='pl-container'>
                             <h3 className='content__title'>Ничего не найдено по запросу "{searchWord}"</h3>
                         </div>

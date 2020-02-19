@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 
 import FilmWrapper from './Wrappers/FilmWrapper';
+import { API_KEY } from '../config/config.js'
 
 class Films extends React.Component {
     constructor() {
@@ -13,7 +14,7 @@ class Films extends React.Component {
     }
 
     componentDidMount() {
-        const FILMS_URL = 'https://api.themoviedb.org/3/discover/movie?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        const FILMS_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ru`;
         fetch(FILMS_URL).then(value => {
             return value.json();
         }).then(output => {

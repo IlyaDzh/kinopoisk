@@ -16,8 +16,8 @@ const SeasonSlider = (props) => {
         <div className='slider'>
             <Slider {...settings}>
                 {
-                    props.slider.map((item, index) => {
-                        return <div className='slider-wrapper' key={index}>
+                    props.slider.map(item => {
+                        return <div className='slider-wrapper' key={item.id}>
                             {
                                 item.poster_path ?
                                     <img className='slider-wrapper__img' src={`https://image.tmdb.org/t/p/w185/${item.poster_path}`} alt='season' />

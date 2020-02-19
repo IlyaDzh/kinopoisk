@@ -17,8 +17,8 @@ const ActorsSlider = (props) => {
         <div className='slider'>
             <Slider {...settings}>
                 {
-                    props.slider.map((item, index) => {
-                        return <Link to={`/person/${item.id}`} className='slider-wrapper' key={index}>
+                    props.slider.map(item => {
+                        return <Link to={`/person/${item.id}`} className='slider-wrapper' key={item.id}>
                             {
                                 item.profile_path ?
                                     <img className='slider-wrapper__img' src={`https://image.tmdb.org/t/p/w185/${item.profile_path}`} alt='actor' />

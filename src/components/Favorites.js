@@ -36,9 +36,7 @@ class Favorites extends React.Component {
                                 </div>
                             </>
                             : <h3 className='content__title'>В избранном пусто</h3>
-
                     }
-
                 </div>
             </div>
         );

@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 import { FaLink, FaMapMarkerAlt, FaInfoCircle, FaLongArrowAltLeft } from 'react-icons/fa';
 
+import { API_KEY } from '../../config/config.js'
 import ErrorPage from '../Others/ErrorPage';
 import NetworkSlider from '../Sliders/NetworkSlider';
 import noposter from '../../img/noposter.png'
@@ -112,7 +113,7 @@ class NetworkDetails extends React.Component {
     }
 
     getDetails = () => {
-        const DETAILS_URL = `https://api.themoviedb.org/3/network/${this.props.match.params.networkId}?api_key=3ac9e9c4b5b41ada30de1c0b1e488050`;
+        const DETAILS_URL = `https://api.themoviedb.org/3/network/${this.props.match.params.networkId}?api_key=${API_KEY}`;
         fetch(DETAILS_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -131,7 +132,7 @@ class NetworkDetails extends React.Component {
     }
 
     getImage = () => {
-        const IMG_URL = `https://api.themoviedb.org/3/network/${this.props.match.params.networkId}/images?api_key=3ac9e9c4b5b41ada30de1c0b1e488050`;
+        const IMG_URL = `https://api.themoviedb.org/3/network/${this.props.match.params.networkId}/images?api_key=${API_KEY}`;
         fetch(IMG_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -152,7 +153,7 @@ class NetworkDetails extends React.Component {
 
     getTV = () => {
         for (let count = 1; count <= 3; count++) {
-            const PAGE_URL = `https://api.themoviedb.org/3/discover/tv?page=${count}&with_networks=${this.props.match.params.networkId}&api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+            const PAGE_URL = `https://api.themoviedb.org/3/discover/tv?page=${count}&with_networks=${this.props.match.params.networkId}&api_key=${API_KEY}&language=ru`;
             fetch(PAGE_URL).then(response => {
                 if (!response.ok) {
                     throw new Error("HTTP status " + response.status);

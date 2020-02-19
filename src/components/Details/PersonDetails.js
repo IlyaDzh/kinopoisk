@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 
+import { API_KEY } from '../../config/config.js'
 import ErrorPage from '../Others/ErrorPage';
 import KnownForSlider from '../Sliders/KnownForSlider';
 import noposter from '../../img/noposter.png'
@@ -127,7 +128,7 @@ class PersonDetails extends React.Component {
     }
 
     getDetails = () => {
-        const DETAILS_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}?api_key=3ac9e9c4b5b41ada30de1c0b1e488050`;
+        const DETAILS_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}?api_key=${API_KEY}`;
         fetch(DETAILS_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -147,7 +148,7 @@ class PersonDetails extends React.Component {
     }
 
     getMovie = () => {
-        const MOVIE_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/movie_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const MOVIE_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/movie_credits?api_key=${API_KEY}&language=ru`;
         fetch(MOVIE_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -171,7 +172,7 @@ class PersonDetails extends React.Component {
     }
 
     getTV = () => {
-        const TV_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/tv_credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const TV_URL = `https://api.themoviedb.org/3/person/${this.props.match.params.personId}/tv_credits?api_key=${API_KEY}&language=ru`;
         fetch(TV_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);

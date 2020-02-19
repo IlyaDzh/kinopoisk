@@ -6,6 +6,7 @@ import { FaLongArrowAltLeft, FaHeart } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { API_KEY } from '../../config/config.js'
 import ErrorPage from '../Others/ErrorPage';
 import SeasonSlider from '../Sliders/SeasonSlider';
 import ActorsSlider from '../Sliders/ActorsSlider';
@@ -226,7 +227,7 @@ class SerialDetails extends React.Component {
     }
 
     getDetails = () => {
-        const DETAILS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const DETAILS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}?api_key=${API_KEY}&language=ru`;
         fetch(DETAILS_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -246,7 +247,7 @@ class SerialDetails extends React.Component {
     }
 
     getActors = () => {
-        const ACTORS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/credits?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const ACTORS_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/credits?api_key=${API_KEY}&language=ru`;
         fetch(ACTORS_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -265,7 +266,7 @@ class SerialDetails extends React.Component {
     }
 
     getVideo = () => {
-        const VIDEO_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/videos?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const VIDEO_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/videos?api_key=${API_KEY}&language=ru`;
         fetch(VIDEO_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -284,7 +285,7 @@ class SerialDetails extends React.Component {
     }
 
     getRecommended = () => {
-        const RECOMEND_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/recommendations?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru`;
+        const RECOMEND_URL = `https://api.themoviedb.org/3/tv/${this.props.match.params.serialId}/recommendations?api_key=${API_KEY}&language=ru`;
         fetch(RECOMEND_URL).then(response => {
             if (!response.ok) {
                 throw new Error("HTTP status " + response.status);
@@ -316,7 +317,7 @@ class SerialDetails extends React.Component {
                     'name': details.name,
                     'original_name': details.original_name,
                 }
-            ], { path: '/', expires, maxAge: 1000 });
+            ], { path: '/', expires, maxAge: 1000000 });
         } else {
             let mas = cookie.load('favorites')
             mas.push({
@@ -326,7 +327,7 @@ class SerialDetails extends React.Component {
                 'name': details.name,
                 'original_name': details.original_name,
             });
-            cookie.save('favorites', mas, { path: '/', expires, maxAge: 1000 });
+            cookie.save('favorites', mas, { path: '/', expires, maxAge: 1000000 });
         }
 
         this.setState({

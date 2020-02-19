@@ -20,6 +20,10 @@ a {
     color: black;
 }
 
+input {
+    height: auto;
+}
+
 .button-back {
     background-color: transparent;
     border: none;
@@ -109,9 +113,10 @@ a {
 
         &-input {
             margin-bottom: 0;
+            height: 40px;
             background-color: #f2f2f2;
             border: none;
-            padding-right: 65px;
+            padding-right: 70px;
 
             &:focus {
                 background-color: #fff;
@@ -172,6 +177,12 @@ a {
 .content {
     &__title {
         margin-top: 20px;
+    }
+
+    &.loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
@@ -392,6 +403,46 @@ a {
     }
 }
 
+.random {
+    padding-top: 60px;
+
+    &__input {
+        margin: 30px 15px;
+    }
+
+    &__btn {
+        border-color: #ef5f00;
+        background-color: #ef5f00;
+        border-radius: 30px;
+        font-size: 28px;
+        color: white;
+
+        &:hover {
+            border-color: #bd4b00;
+            background-color: #bd4b00;
+        }
+    }
+}
+
+.input-range {
+    &__track {
+        transition: none;
+
+        &--active {
+            background: #ff822f;
+        }
+    }
+
+    &__slider {
+        background: #ef5f00;
+        border: 1px solid #ef5f00;
+
+        &-container {
+            transition: none;
+        }
+    }
+}
+
 .video {
     padding: 30px 65px;
 }
@@ -458,17 +509,17 @@ a {
     }
 }
 
-.content.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .col-mob {
     position: relative;
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+@media (min-width: 992px) {
+    .pl-container.random {
+        width: 85%;
+    }
 }
 
 @media (min-width: 768px) {

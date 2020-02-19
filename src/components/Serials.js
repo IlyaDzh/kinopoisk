@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 
 import SerialWrapper from './Wrappers/SerialWrapper';
+import { API_KEY } from '../config/config.js'
 
 class Serials extends React.Component {
     constructor() {
@@ -13,7 +14,7 @@ class Serials extends React.Component {
     }
 
     componentDidMount() {
-        const SERIALS_URL = 'https://api.themoviedb.org/3/discover/tv?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        const SERIALS_URL = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=ru`;
         fetch(SERIALS_URL).then(value => {
             return value.json();
         }).then(output => {

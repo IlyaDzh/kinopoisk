@@ -18,8 +18,8 @@ const RecommendSlider = (props) => {
             <Slider {...settings}>
                 {
                     props.type === "movie" ?
-                        props.slider.map((item, index) => {
-                            return <Link to={`/movie/${item.id}`} className='slider-wrapper' key={index}>
+                        props.slider.map(item => {
+                            return <Link to={`/movie/${item.id}`} className='slider-wrapper' key={item.id}>
                                 {
                                     item.poster_path ?
                                         <img className='slider-wrapper__img' src={`https://image.tmdb.org/t/p/w185/${item.poster_path}`} alt='' />
@@ -31,8 +31,8 @@ const RecommendSlider = (props) => {
                             </Link>
                         })
                         :
-                        props.slider.map((item, index) => {
-                            return <Link to={`/tv/${item.id}`} className='slider-wrapper' key={index}>
+                        props.slider.map(item => {
+                            return <Link to={`/tv/${item.id}`} className='slider-wrapper' key={item.id}>
                                 {
                                     item.poster_path ?
                                         <img className='slider-wrapper__img' src={`https://image.tmdb.org/t/p/w185/${item.poster_path}`} alt='' />

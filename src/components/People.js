@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner'
 
 import PersonWrapper from './Wrappers/PersonWrapper';
+import { API_KEY } from '../config/config.js'
 
 class People extends React.Component {
     constructor() {
@@ -13,7 +14,7 @@ class People extends React.Component {
     }
 
     componentDidMount() {
-        const PEOPLE_URL = 'https://api.themoviedb.org/3/person/popular?api_key=3ac9e9c4b5b41ada30de1c0b1e488050&language=ru';
+        const PEOPLE_URL = `https://api.themoviedb.org/3/person/popular?api_key=${API_KEY}&language=ru`;
         fetch(PEOPLE_URL).then(value => {
             return value.json();
         }).then(output => {
