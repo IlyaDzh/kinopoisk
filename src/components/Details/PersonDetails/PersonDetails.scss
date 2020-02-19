@@ -1,0 +1,40 @@
+.person {
+    &-wrapper {
+        padding: 10px 20px 41px 10px;
+    }
+
+    &-left {
+        padding-top: 15px;
+        background-color: #f1f1f1;
+    }
+
+    &-info {
+        margin-bottom: 10px;
+
+        &__name {
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        &__title {
+            margin-top: 10px;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        strong {
+            display: block;
+            padding-bottom: 6px;
+            font-weight: bold;
+        }
+
+        p:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &-slider {
+        padding: 10px 20px 0px 20px;
+    }
+}

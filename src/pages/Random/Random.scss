@@ -1,0 +1,40 @@
+.random {
+    padding-top: 60px;
+
+    &__input {
+        margin: 30px 15px;
+    }
+
+    &__btn {
+        border-color: #ef5f00 !important;
+        background-color: #ef5f00 !important;
+        border-radius: 30px !important;
+        font-size: 28px !important;
+        color: white !important;
+
+        &:hover {
+            border-color: #bd4b00;
+            background-color: #bd4b00 !important;
+        }
+    }
+}
+
+
+.input-range {
+    &__track {
+        transition: none !important;
+
+        &--active {
+            background: #ff822f !important;
+        }
+    }
+
+    &__slider {
+        background: #ef5f00 !important;
+        border: 1px solid #ef5f00 !important;
+
+        &-container {
+            transition: none !important;
+        }
+    }
+}

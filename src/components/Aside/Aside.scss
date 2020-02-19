@@ -1,0 +1,30 @@
+.aside {
+    background-color: #333;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    display: none;
+
+    &-icon {
+        margin-right: 10px;
+    }
+
+    &-nav {
+        margin-top: 20px;
+
+        &__list {
+            .pl-button {
+                padding: 12px;
+                margin-bottom: 0;
+            }
+
+            .pl-button.link {
+                color: rgba(255, 255, 255, 0.7);
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,87 @@
+.header {
+    background-color: #444;
+    color: rgba(255, 255, 255, 0.7);
+    padding-top: 9px;
+    padding-bottom: 9px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+
+
+    &__logo {
+        margin: 0 18px;
+
+        &-inner {
+            max-width: 164px;
+        }
+    }
+
+    &__search {
+        width: 50%;
+        margin-right: 20px;
+        position: relative;
+
+        &-input {
+            margin-bottom: 0;
+            height: 40px;
+            background-color: #f2f2f2;
+            border: none;
+            padding-right: 70px;
+
+            &:focus {
+                background-color: #fff;
+                border: none;
+            }
+        }
+    }
+
+    &__git {
+        margin-left: auto;
+        margin-right: 20px;
+
+        &-link {
+            color: rgba(255, 255, 255, 0.7);
+
+            &:hover,
+            &:active {
+                color: #fff;
+            }
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        color: #444;
+        cursor: pointer;
+        top: 0;
+
+        &.search {
+            right: 4px;
+            font-size: 18px;
+            padding-top: 4px;
+            padding-left: 6px;
+            padding-right: 6px;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &.delete {
+            right: 35px;
+            font-size: 22px;
+            padding-top: 4px;
+            padding-left: 6px;
+            padding-right: 6px;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+}

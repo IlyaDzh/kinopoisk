@@ -1,24 +1,10 @@
 import React from 'react';
 import { Switch, Route, HashRouter } from 'react-router-dom';
 
-import Header from './components/Others/Header';
-import Aside from './components/Others/Aside';
-import Search from './components/Search';
-import Films from './components/Films';
-import Serials from './components/Serials';
-import People from './components/People';
-import Upcoming from './components/Upcoming';
-import Favorites from './components/Favorites';
-import Random from './components/Random';
-import FilmDetails from './components/Details/FilmDetails';
-import SerialDetails from './components/Details/SerialDetails';
-import PersonDetails from './components/Details/PersonDetails';
-import NetworkDetails from './components/Details/NetworkDetails';
-import ErrorPage from './components/Others/ErrorPage';
+import { Header, Aside, Error, FilmDetails, SerialDetails, PersonDetails, NetworkDetails } from 'components';
+import { Search, Films, Serials, People, Upcoming, Favorites, Random } from 'pages';
 
-import 'plain-css/dist/plain.min.css';
-import './css/main.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import 'styles/app.scss';
 
 class App extends React.Component {
     render() {
@@ -41,7 +27,7 @@ class App extends React.Component {
                     <Route exact path='/person/:personId' component={PersonDetails} />
                     <Route exact path='/network/:networkId' component={NetworkDetails} />
 
-                    <Route component={ErrorPage} />
+                    <Route component={Error} />
                 </Switch>
             </HashRouter>
         );

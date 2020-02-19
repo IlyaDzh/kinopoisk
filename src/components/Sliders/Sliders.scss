@@ -1,0 +1,31 @@
+%for-dots {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slider {
+    padding: 10px 50px 0px 50px;
+
+    &-wrapper {
+        text-align: center;
+
+        &__img {
+            margin: 0 auto;
+            max-width: 150px;
+            width: 100%;
+            padding: 0 5px;
+            display: inherit;
+        }
+    }
+
+    &__title {
+        @extend %for-dots;
+        font-weight: bold;
+    }
+
+    &__subtitle {
+        @extend %for-dots;
+        font-weight: lighter;
+    }
+}
