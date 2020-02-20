@@ -1,9 +1,11 @@
-import Favorites from './Favorites';
-import Films from './Films';
-import People from './People';
-import Random from './Random';
-import Search from './Search';
-import Serials from './Serials';
-import Upcoming from './Upcoming';
-
-export { Favorites, Films, People, Random, Search, Serials, Upcoming };
+export { default as Favorites } from './Favorites';
+export { default as Films } from './Films';
+export { default as People } from './People';
+export { default as Random } from './Random';
+export { default as Search } from './Search';
+export { default as Serials } from './Serials';
+export { default as Upcoming } from './Upcoming';
+export { default as FilmDetails } from './FilmDetails';
+export { default as NetworkDetails } from './NetworkDetails';
+export { default as PersonDetails } from './PersonDetails';
+export { default as SerialDetails } from './SerialDetails';

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Switch, Route, HashRouter } from 'react-router-dom';
 
-import { Header, Aside, Error, FilmDetails, SerialDetails, PersonDetails, NetworkDetails } from 'components';
-import { Search, Films, Serials, People, Upcoming, Favorites, Random } from 'pages';
+import { Header, Aside, Error } from 'components';
+import {
+    Search, Films, Serials, People, Upcoming, Favorites, Random,
+    FilmDetails, SerialDetails, PersonDetails, NetworkDetails
+} from 'pages';
 
 import 'styles/app.scss';
 

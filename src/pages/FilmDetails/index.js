@@ -4,7 +4,7 @@ import cookie from 'react-cookies'
 import { FaLongArrowAltLeft, FaHeart } from 'react-icons/fa';
 
 import { API_KEY } from 'constants/index.js'
-import { Error, ActorsSlider, RecommendSlider } from 'components';
+import { Error, Video, Actors, Recommended } from 'components';
 import noposter from 'img/noposter.png'
 import './FilmDetails.scss'
 
@@ -132,40 +132,6 @@ const Table = (props) => {
             </tbody>
         </table>
     )
-}
-
-const Actors = (props) => {
-    return (
-        <div className='slider-section'>
-            <h4 className='text-bold text-center'>В главных ролях:</h4>
-            <ActorsSlider slider={props.actors} />
-        </div>
-    );
-}
-
-const Video = (props) => {
-    return (
-        <div className='video'>
-            <h4 className='text-bold text-center'>Трейлер:</h4>
-            <iframe
-                width="100%" height="526"
-                title="trailer"
-                src={`https://www.youtube.com/embed/${props.video}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-            />
-        </div>
-    );
-}
-
-const Recommended = (props) => {
-    return (
-        <div className='slider-section'>
-            <h4 className='text-bold text-center'>Рекомендуемое:</h4>
-            <RecommendSlider slider={props.recommended} type="movie" />
-        </div>
-    );
 }
 
 class FilmDetails extends React.Component {
@@ -362,7 +328,7 @@ class FilmDetails extends React.Component {
                         />
                         {actors.length ? <Actors actors={actors} /> : null}
                         {video != null && <Video video={video} />}
-                        {recommended.length ? <Recommended recommended={recommended} /> : null}
+                        {recommended.length ? <Recommended recommended={recommended} type='movie' /> : null}
                     </div>
                     :
                     <Error />

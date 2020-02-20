@@ -1,5 +1,3 @@
-import FilmWrapper from './FilmWrapper';
-import SerialWrapper from './SerialWrapper';
-import PersonWrapper from './PersonWrapper';
-
-export { FilmWrapper, PersonWrapper, SerialWrapper };
+export { default as FilmWrapper } from './FilmWrapper';
+export { default as SerialWrapper } from './SerialWrapper';
+export { default as PersonWrapper } from './PersonWrapper';
